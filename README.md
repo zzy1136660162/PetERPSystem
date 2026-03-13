@@ -7,7 +7,7 @@
 # 网络版介绍
 * 推荐使用网络版（198元1年）淘宝链接：https://item.taobao.com/item.htm?id=674169489573
 * 平台地址：http://cloud.gyjerp.com 欢迎大家注册租户进行使用
-* 网络版手机端请扫描下方二维码
+* 网络版手机端请扫描下方二维码1
 
 ![输入图片说明](https://cloud.gyjerp.com/static/android-code.png)
 ![输入图片说明](https://cloud.gyjerp.com/static/iphone-code.png)

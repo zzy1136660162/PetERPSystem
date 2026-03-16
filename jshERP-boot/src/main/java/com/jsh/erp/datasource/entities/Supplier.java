@@ -53,6 +53,8 @@ public class Supplier {
 
     private String deleteFlag;
 
+    private Long currentHandler;
+
     public Long getId() {
         return id;
     }
@@ -251,5 +253,13 @@ public class Supplier {
 
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag == null ? null : deleteFlag.trim();
+    }
+
+    public Long getCurrentHandler() {
+        return currentHandler;
+    }
+
+    public void setCurrentHandler(Long currentHandler) {
+        this.currentHandler = currentHandler;
     }
 }

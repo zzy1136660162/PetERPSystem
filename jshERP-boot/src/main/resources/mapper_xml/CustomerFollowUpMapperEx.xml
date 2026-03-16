@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsh.erp.datasource.mappers.CustomerFollowUpMapperEx">
+
+    <resultMap id="BaseResultMap" type="com.jsh.erp.datasource.entities.CustomerFollowUp">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="customer_id" jdbcType="BIGINT" property="customerId"/>
+        <result column="follow_up_time" jdbcType="TIMESTAMP" property="followUpTime"/>
+        <result column="follow_up_type" jdbcType="VARCHAR" property="followUpType"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="next_follow_up_time" jdbcType="TIMESTAMP" property="nextFollowUpTime"/>
+        <result column="follow_up_status" jdbcType="VARCHAR" property="followUpStatus"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="tenant_id" jdbcType="BIGINT" property="tenantId"/>
+        <result column="delete_flag" jdbcType="VARCHAR" property="deleteFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="handler_id" jdbcType="BIGINT" property="handlerId"/>
+        <result column="handler_name" jdbcType="VARCHAR" property="handlerName"/>
+        <result column="is_handler_record" jdbcType="VARCHAR" property="isHandlerRecord"/>
+    </resultMap>
+
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        select *
+        from jsh_customer_follow_up
+        where 1=1
+        and ifnull(delete_flag, '0') != '1'
+        <if test="customerId != null">
+            and customer_id = #{customerId}
+        </if>
+        <if test="followUpType != null and followUpType != ''">
+            and follow_up_type = #{followUpType}
+        </if>
+        <if test="followUpStatus != null and followUpStatus != ''">
+            and follow_up_status = #{followUpStatus}
+        </if>
+        <if test="operator != null and operator != ''">
+            and operator like concat('%', #{operator}, '%')
+        </if>
+        <if test="beginTime != null and beginTime != ''">
+            and follow_up_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and follow_up_time &lt;= #{endTime}
+        </if>
+        order by follow_up_time desc
+        <if test="offset != null and rows != null">
+            limit #{offset}, #{rows}
+        </if>
+    </select>
+
+    <select id="countsByCondition" resultType="java.lang.Long">
+        select count(1)
+        from jsh_customer_follow_up
+        where 1=1
+        and ifnull(delete_flag, '0') != '1'
+        <if test="customerId != null">
+            and customer_id = #{customerId}
+        </if>
+        <if test="followUpType != null and followUpType != ''">
+            and follow_up_type = #{followUpType}
+        </if>
+        <if test="followUpStatus != null and followUpStatus != ''">
+            and follow_up_status = #{followUpStatus}
+        </if>
+        <if test="operator != null and operator != ''">
+            and operator like concat('%', #{operator}, '%')
+        </if>
+        <if test="beginTime != null and beginTime != ''">
+            and follow_up_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and follow_up_time &lt;= #{endTime}
+        </if>
+    </select>
+
+    <update id="batchDeleteByIds">
+        update jsh_customer_follow_up
+        set delete_flag = '1'
+        where 1=1
+        and id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 经手记录相关查询 -->
+    <select id="selectHandlerRecordByCondition" resultMap="BaseResultMap">
+        select cfu.*, s.supplier as customer_name, u.username as user_name
+        from jsh_customer_follow_up cfu
+        left join jsh_supplier s on cfu.customer_id = s.id and s.delete_flag = '0'
+        left join jsh_user u on cfu.handler_id = u.id and u.Status = '0'
+        where 1=1
+        and ifnull(cfu.delete_flag, '0') != '1'
+        and cfu.is_handler_record = '1'
+        <if test="customerId != null">
+            and cfu.customer_id = #{customerId}
+        </if>
+        <if test="handlerId != null">
+            and cfu.handler_id = #{handlerId}
+        </if>
+        <if test="beginTime != null and beginTime != ''">
+            and cfu.follow_up_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and cfu.follow_up_time &lt;= #{endTime}
+        </if>
+        order by cfu.follow_up_time desc
+        <if test="offset != null and rows != null">
+            limit #{offset}, #{rows}
+        </if>
+    </select>
+
+    <select id="countsHandlerRecordByCondition" resultType="java.lang.Long">
+        select count(1)
+        from jsh_customer_follow_up
+        where 1=1
+        and ifnull(delete_flag, '0') != '1'
+        and is_handler_record = '1'
+        <if test="customerId != null">
+            and customer_id = #{customerId}
+        </if>
+        <if test="handlerId != null">
+            and handler_id = #{handlerId}
+        </if>
+        <if test="beginTime != null and beginTime != ''">
+            and follow_up_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and follow_up_time &lt;= #{endTime}
+        </if>
+    </select>
+
+    <select id="getCurrentHandler" resultMap="BaseResultMap">
+        select cfu.*, s.supplier as customer_name, u.username as user_name
+        from jsh_customer_follow_up cfu
+        left join jsh_supplier s on cfu.customer_id = s.id and s.delete_flag = '0'
+        left join jsh_user u on cfu.handler_id = u.id and u.Status = '0'
+        where cfu.customer_id = #{customerId}
+        and ifnull(cfu.delete_flag, '0') != '1'
+        and cfu.is_handler_record = '1'
+        and cfu.next_follow_up_time is null
+        order by cfu.follow_up_time desc
+        limit 1
+    </select>
+</mapper>

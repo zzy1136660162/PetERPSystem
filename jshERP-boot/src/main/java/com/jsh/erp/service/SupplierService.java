@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jsh.erp.constants.BusinessConstants;
 import com.jsh.erp.constants.ExceptionConstants;
 import com.jsh.erp.datasource.entities.*;
+import com.jsh.erp.datasource.vo.CustomerAnalysisVo;
 import com.jsh.erp.datasource.mappers.*;
 import com.jsh.erp.datasource.vo.DepotHeadVo4StatementAccount;
 import com.jsh.erp.datasource.vo.SupplierSimple;
@@ -719,5 +720,39 @@ public class SupplierService {
 
     public Supplier getInfoByName(String name, String type) {
         return supplierMapperEx.getInfoByName(name, type);
+    }
+
+    /**
+     * 获取客户分析列表
+     */
+    public List<CustomerAnalysisVo> getCustomerAnalysisList(String customerName, String customerLevel,
+                                                             String customerSource, String valueLevel,
+                                                             String beginTime, String endTime,
+                                                             String[] creatorArray) throws Exception {
+        List<CustomerAnalysisVo> list = null;
+        try {
+            list = supplierMapperEx.selectCustomerAnalysisList(customerName, customerLevel, customerSource,
+                    valueLevel, beginTime, endTime, creatorArray);
+        } catch (Exception e) {
+            JshException.readFail(logger, e);
+        }
+        return list;
+    }
+
+    /**
+     * 获取客户分析统计数量
+     */
+    public Long countCustomerAnalysis(String customerName, String customerLevel,
+                                       String customerSource, String valueLevel,
+                                       String beginTime, String endTime,
+                                       String[] creatorArray) throws Exception {
+        Long result = null;
+        try {
+            result = supplierMapperEx.countCustomerAnalysis(customerName, customerLevel, customerSource,
+                    valueLevel, beginTime, endTime, creatorArray);
+        } catch (Exception e) {
+            JshException.readFail(logger, e);
+        }
+        return result;
     }
 }

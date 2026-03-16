@@ -40,6 +40,8 @@ import '@/assets/less/JAreaLinkage.less'
 import VueAreaLinkage from 'vue-area-linkage'
 
 Vue.config.productionTip = false
+Vue.config.devtools = false
+Vue.config.silent = true
 Vue.use(Storage, config.storageOptions)
 Vue.use(Antd)
 Vue.use(VueAxios, router)

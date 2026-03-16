@@ -6,12 +6,14 @@ import com.jsh.erp.base.BaseController;
 import com.jsh.erp.base.TableDataInfo;
 import com.jsh.erp.datasource.entities.Supplier;
 import com.jsh.erp.datasource.entities.User;
+import com.jsh.erp.datasource.vo.CustomerAnalysisVo;
 import com.jsh.erp.datasource.vo.SupplierSimple;
 import com.jsh.erp.exception.BusinessRunTimeException;
+import com.jsh.erp.service.DepotHeadService;
 import com.jsh.erp.service.SupplierService;
 import com.jsh.erp.service.SystemConfigService;
-import com.jsh.erp.service.UserService;
 import com.jsh.erp.service.UserBusinessService;
+import com.jsh.erp.service.UserService;
 import com.jsh.erp.utils.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,6 +55,9 @@ public class SupplierController extends BaseController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private DepotHeadService depotHeadService;
 
     @GetMapping(value = "/info")
     @ApiOperation(value = "根据id获取信息")
@@ -534,6 +539,29 @@ public class SupplierController extends BaseController {
         } else {
             return returnJson(objectMap, ErpInfo.ERROR.name, ErpInfo.ERROR.code);
         }
+    }
+
+    /**
+     * 客户分析列表
+     * @param search
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = "/customerAnalysis")
+    @ApiOperation(value = "客户分析列表")
+    public TableDataInfo getCustomerAnalysis(@RequestParam(value = Constants.SEARCH, required = false) String search,
+                                             HttpServletRequest request) throws Exception {
+        String customerName = StringUtil.getInfo(search, "customerName");
+        String customerLevel = StringUtil.getInfo(search, "customerLevel");
+        String customerSource = StringUtil.getInfo(search, "customerSource");
+        String valueLevel = StringUtil.getInfo(search, "valueLevel");
+        String beginTime = StringUtil.getInfo(search, "beginTime");
+        String endTime = StringUtil.getInfo(search, "endTime");
+        String[] creatorArray = depotHeadService.getCreatorArray();
+        List<CustomerAnalysisVo> list = supplierService.getCustomerAnalysisList(customerName, customerLevel,
+                customerSource, valueLevel, beginTime, endTime, creatorArray);
+        return getDataTable(list);
     }
 
 }

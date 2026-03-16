@@ -109,4 +109,132 @@
         and ifnull(delete_flag,'0') !='1'
         limit 1
     </select>
+
+    <resultMap id="CustomerAnalysisResultMap" type="com.jsh.erp.datasource.vo.CustomerAnalysisVo">
+        <id column="customer_id" property="customerId"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="phone" property="phone"/>
+        <result column="customer_level" property="customerLevel"/>
+        <result column="customer_source" property="customerSource"/>
+        <result column="order_count" property="orderCount"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="avg_amount" property="avgAmount"/>
+        <result column="last_order_time" property="lastOrderTime"/>
+        <result column="days_since_last_order" property="daysSinceLastOrder"/>
+        <result column="value_level" property="valueLevel"/>
+        <result column="follow_up_count" property="followUpCount"/>
+        <result column="last_follow_up_time" property="lastFollowUpTime"/>
+        <result column="follow_up_status" property="followUpStatus"/>
+    </resultMap>
+
+    <select id="selectCustomerAnalysisList" resultMap="CustomerAnalysisResultMap">
+        SELECT
+            s.id as customer_id,
+            s.supplier as customer_name,
+            s.telephone as phone,
+            s.customer_level,
+            s.customer_source,
+            COUNT(DISTINCT dh.id) as order_count,
+            IFNULL(SUM(dh.total_price), 0) as total_amount,
+            IFNULL(AVG(dh.total_price), 0) as avg_amount,
+            MAX(dh.bill_time) as last_order_time,
+            DATEDIFF(NOW(), MAX(dh.bill_time)) as days_since_last_order,
+            CASE
+                WHEN COUNT(DISTINCT dh.id) >= 10 AND IFNULL(SUM(dh.total_price), 0) >= 5000 THEN '高价值客户'
+                WHEN COUNT(DISTINCT dh.id) >= 5 AND IFNULL(SUM(dh.total_price), 0) >= 2000 THEN '重要客户'
+                WHEN COUNT(DISTINCT dh.id) >= 1 THEN '普通客户'
+                ELSE '潜在客户'
+            END as value_level,
+            COUNT(DISTINCT cfu.id) as follow_up_count,
+            MAX(cfu.follow_up_time) as last_follow_up_time,
+            CASE
+                WHEN COUNT(DISTINCT cfu.id) = 0 THEN '未跟进'
+                WHEN DATEDIFF(NOW(), MAX(cfu.follow_up_time)) > 30 THEN '需跟进'
+                ELSE '跟进正常'
+            END as follow_up_status
+        FROM jsh_supplier s
+        LEFT JOIN jsh_depot_head dh ON s.id = dh.organ_id
+            AND dh.type IN ('销售出库', '零售出库')
+            AND dh.delete_flag = '0'
+            <if test="beginTime != null and beginTime != ''">
+                AND dh.bill_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND dh.bill_time &lt;= #{endTime}
+            </if>
+        LEFT JOIN jsh_customer_follow_up cfu ON s.id = cfu.customer_id AND cfu.delete_flag = '0'
+        WHERE s.type IN ('客户', '会员')
+        AND s.delete_flag = '0'
+        <if test="customerName != null and customerName != ''">
+            AND s.supplier LIKE CONCAT('%', #{customerName}, '%')
+        </if>
+        <if test="customerLevel != null and customerLevel != ''">
+            AND s.customer_level = #{customerLevel}
+        </if>
+        <if test="customerSource != null and customerSource != ''">
+            AND s.customer_source = #{customerSource}
+        </if>
+        <if test="creatorArray != null">
+            AND s.creator IN (
+            <foreach collection="creatorArray" item="creator" separator=",">
+                #{creator}
+            </foreach>
+            )
+        </if>
+        GROUP BY s.id, s.supplier, s.telephone, s.customer_level, s.customer_source
+        HAVING 1=1
+        <if test="valueLevel != null and valueLevel != ''">
+            AND CASE
+                WHEN COUNT(DISTINCT dh.id) >= 10 AND IFNULL(SUM(dh.total_price), 0) >= 5000 THEN '高价值客户'
+                WHEN COUNT(DISTINCT dh.id) >= 5 AND IFNULL(SUM(dh.total_price), 0) >= 2000 THEN '重要客户'
+                WHEN COUNT(DISTINCT dh.id) >= 1 THEN '普通客户'
+                ELSE '潜在客户'
+            END = #{valueLevel}
+        </if>
+        ORDER BY total_amount DESC, order_count DESC
+    </select>
+
+    <select id="countCustomerAnalysis" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM (
+            SELECT s.id
+            FROM jsh_supplier s
+            LEFT JOIN jsh_depot_head dh ON s.id = dh.organ_id
+                AND dh.type IN ('销售出库', '零售出库')
+                AND dh.delete_flag = '0'
+                <if test="beginTime != null and beginTime != ''">
+                    AND dh.bill_time &gt;= #{beginTime}
+                </if>
+                <if test="endTime != null and endTime != ''">
+                    AND dh.bill_time &lt;= #{endTime}
+                </if>
+            WHERE s.type IN ('客户', '会员')
+            AND s.delete_flag = '0'
+            <if test="customerName != null and customerName != ''">
+                AND s.supplier LIKE CONCAT('%', #{customerName}, '%')
+            </if>
+            <if test="customerLevel != null and customerLevel != ''">
+                AND s.customer_level = #{customerLevel}
+            </if>
+            <if test="customerSource != null and customerSource != ''">
+                AND s.customer_source = #{customerSource}
+            </if>
+            <if test="creatorArray != null">
+                AND s.creator IN (
+                <foreach collection="creatorArray" item="creator" separator=",">
+                    #{creator}
+                </foreach>
+                )
+            </if>
+            GROUP BY s.id
+            HAVING 1=1
+            <if test="valueLevel != null and valueLevel != ''">
+                AND CASE
+                    WHEN COUNT(DISTINCT dh.id) >= 10 AND IFNULL(SUM(dh.total_price), 0) >= 5000 THEN '高价值客户'
+                    WHEN COUNT(DISTINCT dh.id) >= 5 AND IFNULL(SUM(dh.total_price), 0) >= 2000 THEN '重要客户'
+                    WHEN COUNT(DISTINCT dh.id) >= 1 THEN '普通客户'
+                    ELSE '潜在客户'
+                END = #{valueLevel}
+            </if>
+        ) t
+    </select>
 </mapper>

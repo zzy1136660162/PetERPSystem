@@ -114,6 +114,19 @@ const batchAddDepotHeadAndDetail = (params)=>postAction("/depotHead/batchAddDepo
 const findStockByDepotAndBarCode = (params)=>getAction("/depotItem/findStockByDepotAndBarCode",params);
 const getBatchNumberList = (params)=>getAction("/depotItem/getBatchNumberList",params);
 const findFinancialDetailByNumber = (params)=>getAction("/accountHead/getDetailByNumber",params);
+//客户跟进记录
+const addCustomerFollowUp = (params)=>postAction("/customerFollowUp/add",params);
+const editCustomerFollowUp = (params)=>putAction("/customerFollowUp/update",params);
+const deleteCustomerFollowUp = (params)=>deleteAction("/customerFollowUp/delete",params);
+const deleteBatchCustomerFollowUp = (params)=>deleteAction("/customerFollowUp/deleteBatch",params);
+const batchSetFollowUpStatus = (params)=>postAction("/customerFollowUp/batchSetStatus",params);
+//客户标签
+const addCustomerTag = (params)=>postAction("/customerTag/add",params);
+const editCustomerTag = (params)=>putAction("/customerTag/update",params);
+const deleteCustomerTag = (params)=>deleteAction("/customerTag/delete",params);
+//客户经手记录 - 使用customerFollowUp接口
+const addCustomerHandlerRecord = (params)=>postAction("/customerFollowUp/addHandlerRecord",params);
+const getCustomerList = (params)=>getAction("/supplier/findBySelect",params);
 
 export {
   getBuyAndSaleStatistics,
@@ -208,7 +221,17 @@ export {
   batchAddDepotHeadAndDetail,
   findStockByDepotAndBarCode,
   getBatchNumberList,
-  findFinancialDetailByNumber
+  findFinancialDetailByNumber,
+  addCustomerFollowUp,
+  editCustomerFollowUp,
+  deleteCustomerFollowUp,
+  deleteBatchCustomerFollowUp,
+  batchSetFollowUpStatus,
+  addCustomerTag,
+  editCustomerTag,
+  deleteCustomerTag,
+  addCustomerHandlerRecord,
+  getCustomerList
 }
 
 

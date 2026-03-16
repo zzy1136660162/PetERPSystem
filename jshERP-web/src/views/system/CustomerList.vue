@@ -72,6 +72,10 @@
               <a v-if="btnEnableList.indexOf(1)>-1 && customerFlag === '1' && quickBtn.user.indexOf(1)>-1 " @click="btnSetUser(record)">分配用户</a>
               <a-divider v-if="btnEnableList.indexOf(1)>-1 && customerFlag === '1' && quickBtn.user.indexOf(1)>-1 " type="vertical" />
               <a @click="handleEdit(record)">编辑</a>
+              <a-divider type="vertical" />
+              <a @click="btnViewHandler(record)">经手记录</a>
+              <a-divider type="vertical" />
+              <a @click="btnViewOrder(record)">历史订单</a>
               <a-divider v-if="btnEnableList.indexOf(1)>-1" type="vertical" />
               <a-popconfirm v-if="btnEnableList.indexOf(1)>-1" title="确定删除吗?" @confirm="() => handleDelete(record.id)">
                 <a>删除</a>
@@ -164,6 +168,7 @@
           { title: '期末应收',dataIndex: 'allNeedGet',width:80,align:"left"},
           { title: '税率(%)', dataIndex: 'taxRate',width:80,align:"left"},
           { title: '排序', dataIndex: 'sort', width: 60,align:"left"},
+          { title: '当前经手人', dataIndex: 'handlerName',width:100,align:"left"},
           { title: '状态',dataIndex: 'enabled',width:60, align:"center",
             scopedSlots: { customRender: 'customRenderFlag' }
           }
@@ -236,6 +241,20 @@
         this.$refs.customerUserModal.edit(record);
         this.$refs.customerUserModal.title = "分配用户给：" + record.supplier
         this.$refs.customerUserModal.disableSubmit = false;
+      },
+      btnViewHandler(record) {
+        // 跳转到经手记录页面，并传递客户ID
+        this.$router.push({
+          path: '/system/customerHandlerRecord',
+          query: { customerId: record.id }
+        })
+      },
+      btnViewOrder(record) {
+        // 跳转到历史订单页面，并传递客户ID
+        this.$router.push({
+          path: '/system/customerOrderHistory',
+          query: { customerId: record.id }
+        })
       }
     }
   }

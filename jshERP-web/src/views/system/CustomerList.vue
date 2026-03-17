@@ -69,16 +69,16 @@
             :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
             @change="handleTableChange">
             <span slot="action" slot-scope="text, record">
-              <a v-if="btnEnableList.indexOf(1)>-1 && customerFlag === '1' && quickBtn.user.indexOf(1)>-1 " @click="btnSetUser(record)">分配用户</a>
-              <a-divider v-if="btnEnableList.indexOf(1)>-1 && customerFlag === '1' && quickBtn.user.indexOf(1)>-1 " type="vertical" />
-              <a @click="handleEdit(record)">编辑</a>
-              <a-divider type="vertical" />
-              <a @click="btnViewHandler(record)">经手记录</a>
-              <a-divider type="vertical" />
-              <a @click="btnViewOrder(record)">历史订单</a>
-              <a-divider v-if="btnEnableList.indexOf(1)>-1" type="vertical" />
-              <a-popconfirm v-if="btnEnableList.indexOf(1)>-1" title="确定删除吗?" @confirm="() => handleDelete(record.id)">
-                <a>删除</a>
+              <a v-if="btnEnableList.indexOf(1)>-1 && customerFlag === '1' && quickBtn.user.indexOf(1)>-1 " @click="btnSetUser(record)" style="font-size: 12px;">分配</a>
+              <a-divider v-if="btnEnableList.indexOf(1)>-1 && customerFlag === '1' && quickBtn.user.indexOf(1)>-1 " type="vertical" style="margin: 0 4px;" />
+              <a @click="handleEdit(record)" style="font-size: 12px;">编辑</a>
+              <a-divider type="vertical" style="margin: 0 4px;" />
+              <a @click="btnViewHandler(record)" style="font-size: 12px;">经手记录</a>
+              <a-divider type="vertical" style="margin: 0 4px;" />
+              <a @click="btnViewOrder(record)" style="font-size: 12px;">历史订单</a>
+              <a-divider type="vertical" style="margin: 0 4px;" />
+              <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
+                <a style="font-size: 12px;">删除</a>
               </a-popconfirm>
             </span>
             <!-- 状态渲染模板 -->
@@ -91,60 +91,40 @@
         <!-- table区域-end -->
         <!-- 表单区域 -->
         <customer-modal ref="modalForm" @ok="modalFormOk"></customer-modal>
-        <import-file-modal ref="modalImportForm" @ok="modalFormOk"></import-file-modal>
-        <customer-user-modal ref="customerUserModal"></customer-user-modal>
-        <customer-handler-record-list-modal ref="customerHandlerRecordListModal"></customer-handler-record-list-modal>
+        <customer-user-modal ref="customerUserModal" @ok="modalFormOk"></customer-user-modal>
+        <customer-handler-record-modal ref="customerHandlerRecordModal"></customer-handler-record-modal>
         <customer-order-history-modal ref="customerOrderHistoryModal"></customer-order-history-modal>
       </a-card>
     </a-col>
   </a-row>
 </template>
-<!-- BY cao_yu_li -->
 <script>
   import CustomerModal from './modules/CustomerModal'
-  import ImportFileModal from '@/components/tools/ImportFileModal'
   import CustomerUserModal from './modules/CustomerUserModal'
-  import CustomerHandlerRecordListModal from './modules/CustomerHandlerRecordListModal'
+  import CustomerHandlerRecordModal from './modules/CustomerHandlerRecordModal'
   import CustomerOrderHistoryModal from './modules/CustomerOrderHistoryModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import JDate from '@/components/jeecg/JDate'
-  import { getCurrentSystemConfig } from '@/api/api'
+  import { getAction } from '@/api/manage'
   import Vue from 'vue'
+
   export default {
     name: "CustomerList",
     mixins:[JeecgListMixin],
     components: {
       CustomerModal,
-      ImportFileModal,
       CustomerUserModal,
-      CustomerHandlerRecordListModal,
-      CustomerOrderHistoryModal,
-      JDate
+      CustomerHandlerRecordModal,
+      CustomerOrderHistoryModal
     },
     data () {
       return {
-        labelCol: {
-          span: 5
-        },
-        wrapperCol: {
-          span: 18,
-          offset: 1
-        },
+        customerFlag: '2', //客户标记
         // 查询条件
         queryParam: {
           supplier:'',
-          type:'客户',
           contacts:'',
           telephone:'',
           phonenum:''
-        },
-        urlPath: '/system/customer',
-        customerFlag: '0',
-        ipagination:{
-          pageSizeOptions: ['10', '20', '30', '100', '200']
-        },
-        quickBtn: {
-          user: ''
         },
         // 表头
         columns: [
@@ -161,15 +141,15 @@
           {
             title: '操作',
             dataIndex: 'action',
-            width: 130,
+            width: 200,
             align:"center",
             scopedSlots: { customRender: 'action' },
           },
-          { title: '名称',dataIndex: 'supplier',width:150,align:"left"},
+          { title: '名称',dataIndex: 'supplier',width:100,align:"left"},
           { title: '联系人', dataIndex: 'contacts',width:70,align:"left"},
           { title: '手机号码', dataIndex: 'telephone',width:100,align:"left"},
           { title: '联系电话', dataIndex: 'phoneNum',width:100,align:"left"},
-          { title: '电子邮箱', dataIndex: 'email',width:150,align:"left"},
+          // { title: '电子邮箱', dataIndex: 'email',width:150,align:"left"},
           { title: '期初应收',dataIndex: 'beginNeedGet',width:80,align:"left"},
           { title: '期末应收',dataIndex: 'allNeedGet',width:80,align:"left"},
           { title: '税率(%)', dataIndex: 'taxRate',width:80,align:"left"},
@@ -195,70 +175,54 @@
       }
     },
     created() {
-      this.getSystemConfig()
       this.initQuickBtn()
     },
     methods: {
-      getSystemConfig() {
-        getCurrentSystemConfig().then((res) => {
-          if(res.code === 200 && res.data){
-            this.customerFlag = res.data.customerFlag
+      initQuickBtn() {
+        this.quickBtn = {
+          user: ''
+        }
+        getAction('/user/getCurrentUser').then((res) =>{
+          if(res.code === 200){
+            this.quickBtn.user = res.data.btnStr
           }
         })
       },
-      //加载快捷按钮：分配用户
-      initQuickBtn() {
-        let btnStrList = Vue.ls.get('winBtnStrList') //按钮功能列表 JSON字符串
-        if (btnStrList) {
-          for (let i = 0; i < btnStrList.length; i++) {
-            if (btnStrList[i].btnStr) {
-              this.quickBtn.user = btnStrList[i].url === '/system/user'?btnStrList[i].btnStr:this.quickBtn.user
-            }
-          }
-        }
-      },
-      searchQuery() {
-        this.loadData(1);
-        this.getSystemConfig()
-      },
-      searchReset() {
-        this.queryParam = {
-          type:'客户',
-        }
-        this.loadData(1)
-        this.getSystemConfig()
-      },
-      handleImportXls() {
-        let importExcelUrl = this.url.importExcelUrl
-        let templateUrl = '/doc/customer_template.xls'
-        let templateName = '客户Excel模板[下载]'
-        this.$refs.modalImportForm.initModal(importExcelUrl, templateUrl, templateName);
-        this.$refs.modalImportForm.title = "客户导入";
-      },
-      handleEdit: function (record) {
-        this.$refs.modalForm.edit(record);
-        this.$refs.modalForm.title = "编辑";
-        this.$refs.modalForm.disableSubmit = false;
-        if(this.btnEnableList.indexOf(1)===-1) {
-          this.$refs.modalForm.isReadOnly = true
-        }
-      },
+      //分配用户
       btnSetUser(record) {
-        this.$refs.customerUserModal.edit(record);
-        this.$refs.customerUserModal.title = "分配用户给：" + record.supplier
-        this.$refs.customerUserModal.disableSubmit = false;
+        this.$refs.customerUserModal.edit(record)
+        this.$refs.customerUserModal.title = "分配用户"
+        this.$refs.customerUserModal.disableSubmit = false
       },
+      //查看经手记录
       btnViewHandler(record) {
-        // 使用弹窗显示经手记录
-        this.$refs.customerHandlerRecordListModal.show(record.id, record.supplier)
+        this.$refs.customerHandlerRecordModal.edit(record)
+        this.$refs.customerHandlerRecordModal.title = "经手记录"
       },
+      //查看历史订单
       btnViewOrder(record) {
-        // 使用弹窗显示历史订单
         this.$refs.customerOrderHistoryModal.show(record.id, record.supplier)
       }
     }
   }
 </script>
 <style scoped>
-  @import '~@assets/less/common.less'
+  @import '~@assets/less/common.less';
+  
+  /* 优化操作列样式 */
+  .ant-table-tbody > tr > td {
+    white-space: nowrap !important;
+  }
+  
+  /* 优化操作按钮间距 */
+  .ant-table-tbody > tr > td a {
+    display: inline-block;
+    padding: 2px 4px;
+  }
+  
+  /* 优化分隔线样式 */
+  .ant-table-tbody > tr > td .ant-divider-vertical {
+    height: 14px;
+    margin: 0 2px;
+  }
 </style>

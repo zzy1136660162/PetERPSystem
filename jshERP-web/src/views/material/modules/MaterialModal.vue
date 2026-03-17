@@ -674,19 +674,22 @@
                 // 宠物商品不受单位限制，跳过所有单位验证
               } else if(!formData.unit) {
                 //此时为多单位
-                if (formData.meList.length<2){
-                  this.$message.warning('多单位的商品条码行数至少要有两行，请再新增一行条码信息！');
+                if (formData.meList.length<1){
+                  this.$message.warning('多单位的商品条码行数至少要有一行，请新增条码信息！');
                   return;
                 }
-                if(formData.meList[0].commodityUnit != basicUnit) {
-                  this.$message.warning('条码之后的单位填写有误，单位【' + formData.meList[0].commodityUnit
-                    + '】请修改为【' + basicUnit + '】！');
-                  return;
-                }
-                if(formData.meList[1].commodityUnit != otherUnit) {
-                  this.$message.warning('条码之后的单位填写有误，单位【' + formData.meList[1].commodityUnit
-                    + '】请修改为【' + otherUnit + '】！');
-                  return;
+                // 只验证存在的行，不强制要求两行
+                for(let i = 0; i < formData.meList.length; i++) {
+                  if(i === 0 && formData.meList[i].commodityUnit != basicUnit) {
+                    this.$message.warning('条码之后的单位填写有误，单位【' + formData.meList[i].commodityUnit
+                      + '】请修改为【' + basicUnit + '】！');
+                    return;
+                  }
+                  if(i === 1 && formData.meList[i].commodityUnit != otherUnit) {
+                    this.$message.warning('条码之后的单位填写有误，单位【' + formData.meList[i].commodityUnit
+                      + '】请修改为【' + otherUnit + '】！');
+                    return;
+                  }
                 }
               }
               let skuCount = 0

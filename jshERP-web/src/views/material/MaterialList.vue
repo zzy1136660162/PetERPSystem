@@ -337,22 +337,22 @@
             title: '操作',
             dataIndex: 'action',
             align:"center",
-            width: 100,
+            width: 100,maxHeight:20,
             scopedSlots: { customRender: 'action' },
           },
-          {title: '图片', dataIndex: 'pic', width: 60, scopedSlots: { customRender: 'customPic' }},
-          {title: '条码', dataIndex: 'mBarCode', width: 120},
-          {title: '名称', dataIndex: 'name', width: 160, scopedSlots: { customRender: 'customName' }},
-          {title: '规格', dataIndex: 'standard', width: 120},
-          {title: '型号', dataIndex: 'model', width: 120},
-          {title: '颜色', dataIndex: 'color', width: 70, ellipsis:true},
-          {title: '品牌', dataIndex: 'brand', width: 100, ellipsis:true},
-          {title: '助记码', dataIndex: 'mnemonic', width: 80, ellipsis:true},
-          {title: '类别', dataIndex: 'categoryName', width: 100, ellipsis:true},
-          {title: '扩展1', dataIndex: 'otherField1', width: 100, ellipsis:true},
-          {title: '扩展2', dataIndex: 'otherField2', width: 100, ellipsis:true},
-          {title: '扩展3', dataIndex: 'otherField3', width: 100, ellipsis:true},
-          {title: '单位', dataIndex: 'unit', width: 100, ellipsis:true,
+          {title: '图片', dataIndex: 'pic', width: 60,maxHeight:20, scopedSlots: { customRender: 'customPic' }},
+          {title: '条码', dataIndex: 'mBarCode',maxHeight:20, width: 120},
+          {title: '名称', dataIndex: 'name', width: 160,maxHeight:20, scopedSlots: { customRender: 'customName' }},
+          {title: '规格', dataIndex: 'standard', maxHeight:20,width: 120},
+          {title: '型号', dataIndex: 'model', maxHeight:20,width: 120},
+          {title: '颜色', dataIndex: 'color', maxHeight:20,width: 70, ellipsis:true},
+          {title: '品牌', dataIndex: 'brand', maxHeight:20,width: 100, ellipsis:true},
+          {title: '助记码', dataIndex: 'mnemonic',maxHeight:20,width: 80, ellipsis:true},
+          {title: '类别', dataIndex: 'categoryName',maxHeight:20, width: 100, ellipsis:true},
+          {title: '扩展1', dataIndex: 'otherField1',maxHeight:20, width: 100, ellipsis:true},
+          {title: '扩展2', dataIndex: 'otherField2',maxHeight:20, width: 100, ellipsis:true},
+          {title: '扩展3', dataIndex: 'otherField3', maxHeight:20,width: 100, ellipsis:true},
+          {title: '单位', dataIndex: 'unit',maxHeight:20, width: 100, ellipsis:true,
             customRender:function (t,r,index) {
               if (r) {
                 let name = t?t:r.unitName
@@ -364,28 +364,28 @@
               }
             }
           },
-          {title: '基础重量', dataIndex: 'weight', width: 80},
-          {title: '保质期', dataIndex: 'expiryNum', width: 60},
-          {title: '制造商', dataIndex: 'mfrs', width: 120, ellipsis:true},
-          {title: '初始库存', dataIndex: 'initialStock', width: 80,
+          {title: '基础重量', dataIndex: 'weight',maxHeight:20, width: 80},
+          {title: '保质期', dataIndex: 'expiryNum',maxHeight:20, width: 60},
+          {title: '制造商', dataIndex: 'mfrs',maxHeight:20, width: 120, ellipsis:true},
+          {title: '初始库存', dataIndex: 'initialStock',maxHeight:20, width: 80,
             scopedSlots: { customRender: 'customRenderInitialStock' }
           },
-          {title: '库存', dataIndex: 'stock', width: 80,
+          {title: '库存', dataIndex: 'stock',maxHeight:20, width: 80,
             scopedSlots: { customRender: 'customRenderStock' }
           },
-          {title: '采购价', dataIndex: 'purchaseDecimal', width: 80},
-          {title: '零售价', dataIndex: 'commodityDecimal', width: 80},
-          {title: '销售价', dataIndex: 'wholesaleDecimal', width: 80},
-          {title: '最低售价', dataIndex: 'lowDecimal', width: 80},
-          {title: '仓位货架', dataIndex: 'position', width: 80},
-          {title: '备注', dataIndex: 'remark', width: 80},
-          {title: '状态', dataIndex: 'enabled', align: "center", width: 60,
+          {title: '采购价', dataIndex: 'purchaseDecimal',maxHeight:20, width: 80},
+          {title: '零售价', dataIndex: 'commodityDecimal',maxHeight:20, width: 80},
+          {title: '销售价', dataIndex: 'wholesaleDecimal',maxHeight:20, width: 80},
+          {title: '最低售价', dataIndex: 'lowDecimal',maxHeight:20, width: 80},
+          {title: '仓位货架', dataIndex: 'position',maxHeight:20, width: 80},
+          {title: '备注', dataIndex: 'remark',maxHeight:20, width: 80},
+          {title: '状态', dataIndex: 'enabled', align: "center",maxHeight:20, width: 60,
             scopedSlots: { customRender: 'customRenderEnabled' }
           },
-          {title: '宠物类型', dataIndex: 'petType', width: 80},
-          {title: '品种', dataIndex: 'petBreed', width: 100, ellipsis:true},
-          {title: '健康状态', dataIndex: 'healthStatus', width: 80},
-          {title: '疫苗状态', dataIndex: 'vaccineStatus', width: 80}
+          {title: '宠物类型', dataIndex: 'petType',maxHeight:20, width: 80},
+          {title: '品种', dataIndex: 'petBreed',maxHeight:20, width: 100, ellipsis:true},
+          {title: '健康状态', dataIndex: 'healthStatus',maxHeight:20, width: 80},
+          {title: '疫苗状态', dataIndex: 'vaccineStatus',maxHeight:20, width: 80}
         ],
         url: {
           list: "/material/list",
@@ -570,7 +570,74 @@
   }
 </script>
 <style scoped>
-  @import '~@assets/less/common.less'
+  @import '~@assets/less/common.less';
+  
+  /* 修复商品信息表头高度异常 */
+  .ant-table-thead>tr>th{
+    padding: 10px 8px !important;
+    line-height: 1.4 !important;
+    min-height: 38px !important;
+  }
+  /* 修复商品信息表格行高度 */
+  .ant-table-tbody > tr > td {
+    padding: 8px !important;
+  }
+  /* 修复图片列高度 */
+  .ant-table-tbody > tr > td .item-info {
+    margin: 0 !important;
+    vertical-align: middle;
+  }
+  
+  /* 修复操作按钮对齐 */
+  .ant-table-tbody > tr > td .ant-btn {
+    margin: 0 4px 0 0 !important;
+  }
+  
+  /* 修复拖拽表头高度异常 */
+  .ant-table-thead > tr > th.resize-table-th {
+    position: relative !important;
+    padding-right: 20px !important;
+  }
+  
+  /* 修复表头拖拽句柄位置 */
+  .ant-table-thead > tr > th.resize-table-th .table-draggable-handle {
+    position: absolute !important;
+    right: 2px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    height: 60% !important;
+    width: 8px !important;
+    background: transparent !important;
+    cursor: col-resize !important;
+  }
+  
+  /* 修复表头文本换行 */
+  .ant-table-thead > tr > th .ant-table-header-column {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  
+  /* 修复商品信息表格整体高度 */
+  .ant-table-wrapper {
+    line-height: 1.4 !important;
+  }
+  
+  /* 修复表头过滤图标位置 */
+  .ant-table-thead > tr > th .ant-table-filter-icon {
+    position: absolute !important;
+    right: 8px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+  
+  /* 修复列排序图标位置 */
+  .ant-table-thead > tr > th .ant-table-column-sorter {
+    position: absolute !important;
+    right: 8px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
 </style>
 <style>
   .item-info {

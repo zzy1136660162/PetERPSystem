@@ -93,6 +93,8 @@
         <customer-modal ref="modalForm" @ok="modalFormOk"></customer-modal>
         <import-file-modal ref="modalImportForm" @ok="modalFormOk"></import-file-modal>
         <customer-user-modal ref="customerUserModal"></customer-user-modal>
+        <customer-handler-record-list-modal ref="customerHandlerRecordListModal"></customer-handler-record-list-modal>
+        <customer-order-history-modal ref="customerOrderHistoryModal"></customer-order-history-modal>
       </a-card>
     </a-col>
   </a-row>
@@ -102,6 +104,8 @@
   import CustomerModal from './modules/CustomerModal'
   import ImportFileModal from '@/components/tools/ImportFileModal'
   import CustomerUserModal from './modules/CustomerUserModal'
+  import CustomerHandlerRecordListModal from './modules/CustomerHandlerRecordListModal'
+  import CustomerOrderHistoryModal from './modules/CustomerOrderHistoryModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import JDate from '@/components/jeecg/JDate'
   import { getCurrentSystemConfig } from '@/api/api'
@@ -113,6 +117,8 @@
       CustomerModal,
       ImportFileModal,
       CustomerUserModal,
+      CustomerHandlerRecordListModal,
+      CustomerOrderHistoryModal,
       JDate
     },
     data () {
@@ -243,18 +249,12 @@
         this.$refs.customerUserModal.disableSubmit = false;
       },
       btnViewHandler(record) {
-        // 跳转到经手记录页面，并传递客户ID
-        this.$router.push({
-          path: '/system/customerHandlerRecord',
-          query: { customerId: record.id }
-        })
+        // 使用弹窗显示经手记录
+        this.$refs.customerHandlerRecordListModal.show(record.id, record.supplier)
       },
       btnViewOrder(record) {
-        // 跳转到历史订单页面，并传递客户ID
-        this.$router.push({
-          path: '/system/customerOrderHistory',
-          query: { customerId: record.id }
-        })
+        // 使用弹窗显示历史订单
+        this.$refs.customerOrderHistoryModal.show(record.id, record.supplier)
       }
     }
   }

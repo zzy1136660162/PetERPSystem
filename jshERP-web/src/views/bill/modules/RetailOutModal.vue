@@ -64,15 +64,16 @@
             </a-form-item>
           </a-col>
         </a-row>
-        <a-row class="form-row" :gutter="24">
-          <a-col :lg="18" :md="12" :sm="24">
+        <!-- 商品列表独占一行 -->
+        <a-row class="form-row" :gutter="16">
+          <a-col :span="24">
             <j-editable-table id="billModal"
               :ref="refKeys[0]"
               :loading="materialTable.loading"
               :columns="materialTable.columns"
               :dataSource="materialTable.dataSource"
               :minWidth="minWidth"
-              :maxHeight="300"
+              :maxHeight="400"
               :rowNumber="false"
               :rowSelection="true"
               :actionButton="true"
@@ -118,51 +119,52 @@
               </a-col>
             </a-row>
           </a-col>
-          <div class="sign">
-            <a-col :lg="6" :md="12" :sm="24">
-              <a-row class="form-row" :gutter="24">
-                <a-col :lg="24" :md="6" :sm="6"><br/><br/></a-col>
-                <a-col :lg="24" :md="6" :sm="6">
-                  <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" data-step="5" data-title="单据金额"
-                               data-intro="单据金额等于左侧商品的总金额">
-                    <span slot="label" style="font-size: 20px;line-height:20px">单据金额</span>
-                    <a-input v-decorator.trim="[ 'changeAmount' ]" :style="{color:'purple'}" :readOnly="true"/>
-                  </a-form-item>
-                </a-col>
-                <a-col :lg="24" :md="6" :sm="6">
-                  <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" data-step="6" data-title="收款金额"
-                               data-intro="收款金额为收银员收取用户的实际金额">
-                    <span slot="label" style="font-size: 20px;line-height:20px">收款金额</span>
-                    <a-input v-decorator.trim="[ 'getAmount' ]" :style="{color:'red'}" defaultValue="0" @change="onChangeGetAmount"/>
-                  </a-form-item>
-                </a-col>
-                <a-col :lg="24" :md="6" :sm="6">
-                  <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" data-step="7" data-title="找零"
-                               data-intro="找零等于收款金额减去实收金额">
-                    <span slot="label" style="font-size: 20px;line-height:20px">找零</span>
-                    <a-input v-decorator.trim="[ 'backAmount' ]" :style="{color:'green'}" :readOnly="true" defaultValue="0"/>
-                  </a-form-item>
-                </a-col>
-                <a-col :lg="24" :md="6" :sm="6">
-                  <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" data-step="8" data-title="收款账户"
-                               data-intro="收款账户的信息来自基本资料菜单下的【结算账户】">
-                    <span slot="label" style="font-size: 20px;line-height:20px">收款账户</span>
-                    <a-select placeholder="请选择收款账户" style="font-size:20px;" v-decorator="[ 'accountId', validatorRules.accountId ]" :dropdownMatchSelectWidth="false">
-                      <div slot="dropdownRender" slot-scope="menu">
-                        <v-nodes :vnodes="menu" />
-                        <a-divider style="margin: 4px 0;" />
-                        <div v-if="quickBtn.account" class="dropdown-btn" @mousedown="e => e.preventDefault()" @click="addAccount"><a-icon type="plus" /> 新增</div>
-                        <div class="dropdown-btn" @mousedown="e => e.preventDefault()" @click="initAccount(0)"><a-icon type="reload" /> 刷新</div>
-                      </div>
-                      <a-select-option v-for="(item,index) in accountList" :key="index" :value="item.id">
-                        {{ item.name }}
-                      </a-select-option>
-                    </a-select>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-            </a-col>
-          </div>
+        </a-row>
+        <!-- 金额显示区域在商品列表下方 -->
+        <a-row class="form-row" :gutter="16">
+          <a-col :span="24" class="sign">
+            <a-row :gutter="16">
+              <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                <a-form-item :labelCol="{ span: 24 }" :wrapperCol="{ span: 24 }" data-step="5" data-title="单据金额"
+                             data-intro="单据金额等于左侧商品的总金额">
+                  <span slot="label" style="font-size: 20px;line-height:20px">单据金额</span>
+                  <a-input v-decorator.trim="[ 'changeAmount' ]" :style="{color:'purple'}" :readOnly="true"/>
+                </a-form-item>
+              </a-col>
+              <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                <a-form-item :labelCol="{ span: 24 }" :wrapperCol="{ span: 24 }" data-step="6" data-title="收款金额"
+                             data-intro="收款金额为收银员收取用户的实际金额">
+                  <span slot="label" style="font-size: 20px;line-height:20px">收款金额</span>
+                  <a-input v-decorator.trim="[ 'getAmount' ]" :style="{color:'red'}" defaultValue="0" @change="onChangeGetAmount"/>
+                </a-form-item>
+              </a-col>
+              <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                <a-form-item :labelCol="{ span: 24 }" :wrapperCol="{ span: 24 }" data-step="7" data-title="找零"
+                             data-intro="找零等于收款金额减去实收金额">
+                  <span slot="label" style="font-size: 20px;line-height:20px">找零</span>
+                  <a-input v-decorator.trim="[ 'backAmount' ]" :style="{color:'green'}" :readOnly="true" defaultValue="0"/>
+                </a-form-item>
+              </a-col>
+              <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                <a-form-item :labelCol="{ span: 24 }" :wrapperCol="{ span: 24 }" data-step="8" data-title="收款账户"
+                             data-intro="收款账户的信息来自基本资料菜单下的【结算账户】">
+                  <span slot="label" style="font-size: 20px;line-height:20px">收款账户</span>
+                  <a-select placeholder="请选择收款账户" style="font-size:20px;" v-decorator="[ 'accountId', validatorRules.accountId ]" :dropdownMatchSelectWidth="false">
+                    <div slot="dropdownRender" slot-scope="menu">
+                      <v-nodes :vnodes="menu" />
+                      <a-divider style="margin: 4px 0;" />
+                      <div v-if="quickBtn.account" class="dropdown-btn" @mousedown="e => e.preventDefault()" @click="addAccount"><a-icon type="plus" /> 新增</div>
+                      <div class="dropdown-btn" @mousedown="e => e.preventDefault()" @click="initAccount(0)"><a-icon type="reload" /> 刷新</div>
+                    </div>
+                    <a-select-option v-for="(item,index) in accountList" :key="index" :value="item.id">
+                      {{ item.name }}
+                    </a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+            </a-row>
+          </a-col>
+        </a-row>
         </a-row>
       </a-form>
     </a-spin>
@@ -227,11 +229,11 @@
         model: {},
         labelCol: {
           xs: { span: 24 },
-          sm: { span: 8 },
+          sm: { span: 6 },
         },
         wrapperCol: {
           xs: { span: 24 },
-          sm: { span: 16 },
+          sm: { span: 18 },
         },
         refKeys: ['materialDataTable', ],
         activeKey: 'materialDataTable',
@@ -296,7 +298,7 @@
     created () {
       this.initPayTypeList()
       let realScreenWidth = window.screen.width
-      this.minWidth = realScreenWidth<1500?800:1100
+      this.minWidth = realScreenWidth<1500?600:800
     },
     methods: {
       //调用完edit()方法之后会自动调用此方法
@@ -443,5 +445,37 @@
     border-left-width:0px!important;
     border-top-width:0px!important;
     border-right-width:0px!important;
+  }
+  /* 垂直布局样式 */
+  .form-row {
+    width: 100%;
+  }
+  /* 金额区域样式 */
+  .sign {
+    padding: 20px 0;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+  /* 让输入框占满可用宽度 */
+  .sign .ant-form-item-control {
+    width: 100%;
+  }
+  .sign .ant-input,
+  .sign .ant-select {
+    width: 100% !important;
+  }
+  /* 金额标签样式 */
+  .sign .ant-form-item-label {
+    text-align: center;
+    font-weight: bold;
+  }
+  /* 响应式布局 */
+  @media (max-width: 768px) {
+    .sign {
+      padding: 15px 0;
+    }
   }
 </style>

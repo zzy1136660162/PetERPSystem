@@ -1,6 +1,7 @@
 package com.jsh.erp.datasource.entities;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class Material {
     private Long id;
@@ -52,6 +53,33 @@ public class Material {
     private Long tenantId;
 
     private String deleteFlag;
+
+    // 宠物相关字段
+    private String petType;
+
+    private String petBreed;
+
+    private String petName;
+
+    private String petGender;
+
+    private String petColor;
+
+    private Date petBirthday;
+
+    private String sourceType;
+
+    private BigDecimal purchasePrice;
+
+    private String vaccineStatus;
+
+    private String dewormStatus;
+
+    private String sterilizedFlag;
+
+    private String healthStatus;
+
+    private BigDecimal petWeight;
 
     public Long getId() {
         return id;
@@ -251,5 +279,110 @@ public class Material {
 
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag == null ? null : deleteFlag.trim();
+    }
+
+    // 宠物相关字段的getter和setter方法
+    public String getPetType() {
+        return petType;
+    }
+
+    public void setPetType(String petType) {
+        this.petType = petType == null ? null : petType.trim();
+    }
+
+    public String getPetBreed() {
+        return petBreed;
+    }
+
+    public void setPetBreed(String petBreed) {
+        this.petBreed = petBreed == null ? null : petBreed.trim();
+    }
+
+    public String getPetName() {
+        return petName;
+    }
+
+    public void setPetName(String petName) {
+        this.petName = petName == null ? null : petName.trim();
+    }
+
+    public String getPetGender() {
+        return petGender;
+    }
+
+    public void setPetGender(String petGender) {
+        this.petGender = petGender == null ? null : petGender.trim();
+    }
+
+    public String getPetColor() {
+        return petColor;
+    }
+
+    public void setPetColor(String petColor) {
+        this.petColor = petColor == null ? null : petColor.trim();
+    }
+
+    public Date getPetBirthday() {
+        return petBirthday;
+    }
+
+    public void setPetBirthday(Date petBirthday) {
+        this.petBirthday = petBirthday;
+    }
+
+    public String getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(String sourceType) {
+        this.sourceType = sourceType == null ? null : sourceType.trim();
+    }
+
+    public BigDecimal getPurchasePrice() {
+        return purchasePrice;
+    }
+
+    public void setPurchasePrice(BigDecimal purchasePrice) {
+        this.purchasePrice = purchasePrice;
+    }
+
+    public String getVaccineStatus() {
+        return vaccineStatus;
+    }
+
+    public void setVaccineStatus(String vaccineStatus) {
+        this.vaccineStatus = vaccineStatus == null ? null : vaccineStatus.trim();
+    }
+
+    public String getDewormStatus() {
+        return dewormStatus;
+    }
+
+    public void setDewormStatus(String dewormStatus) {
+        this.dewormStatus = dewormStatus == null ? null : dewormStatus.trim();
+    }
+
+    public String getSterilizedFlag() {
+        return sterilizedFlag;
+    }
+
+    public void setSterilizedFlag(String sterilizedFlag) {
+        this.sterilizedFlag = sterilizedFlag == null ? null : sterilizedFlag.trim();
+    }
+
+    public String getHealthStatus() {
+        return healthStatus;
+    }
+
+    public void setHealthStatus(String healthStatus) {
+        this.healthStatus = healthStatus == null ? null : healthStatus.trim();
+    }
+
+    public BigDecimal getPetWeight() {
+        return petWeight;
+    }
+
+    public void setPetWeight(BigDecimal petWeight) {
+        this.petWeight = petWeight;
     }
 }

@@ -117,6 +117,43 @@
                     <a-input placeholder="请输入备注查询" v-model="queryParam.remark"></a-input>
                   </a-form-item>
                 </a-col>
+                <!-- 宠物相关查询条件 -->
+                <a-col :md="6" :sm="24">
+                  <a-form-item label="宠物类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                    <a-select placeholder="请选择宠物类型" v-model="queryParam.petType">
+                      <a-select-option value="">全部</a-select-option>
+                      <a-select-option value="猫">猫</a-select-option>
+                      <a-select-option value="狗">狗</a-select-option>
+                      <a-select-option value="其他">其他</a-select-option>
+                    </a-select>
+                  </a-form-item>
+                </a-col>
+                <a-col :md="6" :sm="24">
+                  <a-form-item label="品种" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                    <a-input placeholder="请输入品种查询" v-model="queryParam.petBreed"></a-input>
+                  </a-form-item>
+                </a-col>
+                <a-col :md="6" :sm="24">
+                  <a-form-item label="健康状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                    <a-select placeholder="请选择健康状态" v-model="queryParam.healthStatus">
+                      <a-select-option value="">全部</a-select-option>
+                      <a-select-option value="健康">健康</a-select-option>
+                      <a-select-option value="观察中">观察中</a-select-option>
+                      <a-select-option value="治疗中">治疗中</a-select-option>
+                      <a-select-option value="禁售">禁售</a-select-option>
+                    </a-select>
+                  </a-form-item>
+                </a-col>
+                <a-col :md="6" :sm="24">
+                  <a-form-item label="疫苗状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                    <a-select placeholder="请选择疫苗状态" v-model="queryParam.vaccineStatus">
+                      <a-select-option value="">全部</a-select-option>
+                      <a-select-option value="未接种">未接种</a-select-option>
+                      <a-select-option value="部分接种">部分接种</a-select-option>
+                      <a-select-option value="已完成">已完成</a-select-option>
+                    </a-select>
+                  </a-form-item>
+                </a-col>
               </a-row>
             </template>
           </a-form>
@@ -277,6 +314,10 @@
           enableBatchNumber: undefined,
           position: '',
           remark:'',
+          petType:'',
+          petBreed:'',
+          healthStatus:'',
+          vaccineStatus:'',
           mpList: getMpListShort(Vue.ls.get('materialPropertyList'))  //扩展属性
         },
         urlPath: '/material/material',
@@ -289,7 +330,7 @@
         columns:[],
         // 默认索引
         defDataIndex:['action','mBarCode','name','standard','model','color','categoryName','unit', 'stock',
-          'purchaseDecimal','commodityDecimal','wholesaleDecimal','lowDecimal','enabled'],
+          'purchaseDecimal','commodityDecimal','wholesaleDecimal','lowDecimal','enabled','petType','petBreed','healthStatus','vaccineStatus'],
         // 默认列
         defColumns: [
           {
@@ -340,7 +381,11 @@
           {title: '备注', dataIndex: 'remark', width: 80},
           {title: '状态', dataIndex: 'enabled', align: "center", width: 60,
             scopedSlots: { customRender: 'customRenderEnabled' }
-          }
+          },
+          {title: '宠物类型', dataIndex: 'petType', width: 80},
+          {title: '品种', dataIndex: 'petBreed', width: 100, ellipsis:true},
+          {title: '健康状态', dataIndex: 'healthStatus', width: 80},
+          {title: '疫苗状态', dataIndex: 'vaccineStatus', width: 80}
         ],
         url: {
           list: "/material/list",

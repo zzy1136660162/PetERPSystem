@@ -27,6 +27,20 @@
     <result column="attribute" jdbcType="VARCHAR" property="attribute" />
     <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
     <result column="delete_flag" jdbcType="VARCHAR" property="deleteFlag" />
+    <!-- 宠物相关字段 -->
+    <result column="pet_type" jdbcType="VARCHAR" property="petType" />
+    <result column="pet_breed" jdbcType="VARCHAR" property="petBreed" />
+    <result column="pet_name" jdbcType="VARCHAR" property="petName" />
+    <result column="pet_gender" jdbcType="VARCHAR" property="petGender" />
+    <result column="pet_color" jdbcType="VARCHAR" property="petColor" />
+    <result column="pet_birthday" jdbcType="DATE" property="petBirthday" />
+    <result column="source_type" jdbcType="VARCHAR" property="sourceType" />
+    <result column="purchase_price" jdbcType="DECIMAL" property="purchasePrice" />
+    <result column="vaccine_status" jdbcType="VARCHAR" property="vaccineStatus" />
+    <result column="deworm_status" jdbcType="VARCHAR" property="dewormStatus" />
+    <result column="sterilized_flag" jdbcType="VARCHAR" property="sterilizedFlag" />
+    <result column="health_status" jdbcType="VARCHAR" property="healthStatus" />
+    <result column="pet_weight" jdbcType="DECIMAL" property="petWeight" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

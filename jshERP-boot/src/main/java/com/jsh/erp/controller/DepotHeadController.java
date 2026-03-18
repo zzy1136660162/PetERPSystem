@@ -807,9 +807,9 @@ public class DepotHeadController extends BaseController {
             List<Map<String, Object>> todoList = new ArrayList<>();
             
             // 统计各类待审核单据数量（status = '0' 表示未审核）
-            // 销售订单待审核
-            long saleOrderCount = depotHeadService.waitBillCount(null, null, null, "销售订单", null, null, "0");
-            if (saleOrderCount > 0) {
+            // 销售订单待审核 - 只查询未审核状态，不关联明细表
+            Long saleOrderCount = depotHeadService.getTodoCount(null, "销售订单", "0");
+            if (saleOrderCount != null && saleOrderCount > 0) {
                 Map<String, Object> item = new HashMap<>();
                 item.put("type", "sale_order");
                 item.put("title", "销售订单");
@@ -819,8 +819,8 @@ public class DepotHeadController extends BaseController {
             }
             
             // 采购订单待审核
-            long purchaseOrderCount = depotHeadService.waitBillCount(null, null, null, "采购订单", null, null, "0");
-            if (purchaseOrderCount > 0) {
+            Long purchaseOrderCount = depotHeadService.getTodoCount(null, "采购订单", "0");
+            if (purchaseOrderCount != null && purchaseOrderCount > 0) {
                 Map<String, Object> item = new HashMap<>();
                 item.put("type", "purchase_order");
                 item.put("title", "采购订单");
@@ -830,8 +830,8 @@ public class DepotHeadController extends BaseController {
             }
             
             // 销售出库待审核
-            long saleOutCount = depotHeadService.waitBillCount(null, null, "出库", "销售", null, null, "0");
-            if (saleOutCount > 0) {
+            Long saleOutCount = depotHeadService.getTodoCount("出库", "销售", "0");
+            if (saleOutCount != null && saleOutCount > 0) {
                 Map<String, Object> item = new HashMap<>();
                 item.put("type", "sale_out");
                 item.put("title", "销售出库");
@@ -841,8 +841,8 @@ public class DepotHeadController extends BaseController {
             }
             
             // 销售退货待审核
-            long saleBackCount = depotHeadService.waitBillCount(null, null, "入库", "销售退货", null, null, "0");
-            if (saleBackCount > 0) {
+            Long saleBackCount = depotHeadService.getTodoCount("入库", "销售退货", "0");
+            if (saleBackCount != null && saleBackCount > 0) {
                 Map<String, Object> item = new HashMap<>();
                 item.put("type", "sale_back");
                 item.put("title", "销售退货");
@@ -852,8 +852,8 @@ public class DepotHeadController extends BaseController {
             }
             
             // 采购入库待审核
-            long purchaseInCount = depotHeadService.waitBillCount(null, null, "入库", "采购", null, null, "0");
-            if (purchaseInCount > 0) {
+            Long purchaseInCount = depotHeadService.getTodoCount("入库", "采购", "0");
+            if (purchaseInCount != null && purchaseInCount > 0) {
                 Map<String, Object> item = new HashMap<>();
                 item.put("type", "purchase_in");
                 item.put("title", "采购入库");
@@ -863,8 +863,8 @@ public class DepotHeadController extends BaseController {
             }
             
             // 采购退货待审核
-            long purchaseBackCount = depotHeadService.waitBillCount(null, null, "出库", "采购退货", null, null, "0");
-            if (purchaseBackCount > 0) {
+            Long purchaseBackCount = depotHeadService.getTodoCount("出库", "采购退货", "0");
+            if (purchaseBackCount != null && purchaseBackCount > 0) {
                 Map<String, Object> item = new HashMap<>();
                 item.put("type", "purchase_back");
                 item.put("title", "采购退货");
@@ -874,8 +874,12 @@ public class DepotHeadController extends BaseController {
             }
             
             // 计算总待办数量
-            long totalCount = saleOrderCount + purchaseOrderCount + saleOutCount + 
-                             saleBackCount + purchaseInCount + purchaseBackCount;
+            long totalCount = (saleOrderCount != null ? saleOrderCount : 0) + 
+                             (purchaseOrderCount != null ? purchaseOrderCount : 0) + 
+                             (saleOutCount != null ? saleOutCount : 0) + 
+                             (saleBackCount != null ? saleBackCount : 0) + 
+                             (purchaseInCount != null ? purchaseInCount : 0) + 
+                             (purchaseBackCount != null ? purchaseBackCount : 0);
             
             data.put("todoList", todoList);
             data.put("totalCount", totalCount);

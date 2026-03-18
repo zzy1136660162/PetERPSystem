@@ -8,3 +8,4 @@
 
 ## front
 **/*.lock
+/logs.home_IS_UNDEFINED/

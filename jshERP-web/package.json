@@ -52,7 +52,12 @@
     "html-webpack-plugin": "^4.2.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
+<<<<<<< HEAD
     "vue-loader": "^15.9.8",
+=======
+    "sass": "^1.98.0",
+    "sass-loader": "^10.5.2",
+>>>>>>> 8e8290501ab542b96c81d719172933de55d52016
     "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {

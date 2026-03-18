@@ -793,6 +793,107 @@ public class DepotHeadController extends BaseController {
     }
 
     /**
+     * 获取待办事项数量统计
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = "/getTodoCount")
+    @ApiOperation(value = "获取待办事项数量统计")
+    public BaseResponseInfo getTodoCount(HttpServletRequest request) throws Exception {
+        BaseResponseInfo res = new BaseResponseInfo();
+        try {
+            Map<String, Object> data = new HashMap<>();
+            List<Map<String, Object>> todoList = new ArrayList<>();
+            
+            // 统计各类待审核单据数量（status = '0' 表示未审核）
+            // 销售订单待审核 - 只查询未审核状态，不关联明细表
+            Long saleOrderCount = depotHeadService.getTodoCount(null, "销售订单", "0");
+            if (saleOrderCount != null && saleOrderCount > 0) {
+                Map<String, Object> item = new HashMap<>();
+                item.put("type", "sale_order");
+                item.put("title", "销售订单");
+                item.put("count", saleOrderCount);
+                item.put("path", "/bill/sale_order");
+                todoList.add(item);
+            }
+            
+            // 采购订单待审核
+            Long purchaseOrderCount = depotHeadService.getTodoCount(null, "采购订单", "0");
+            if (purchaseOrderCount != null && purchaseOrderCount > 0) {
+                Map<String, Object> item = new HashMap<>();
+                item.put("type", "purchase_order");
+                item.put("title", "采购订单");
+                item.put("count", purchaseOrderCount);
+                item.put("path", "/bill/purchase_order");
+                todoList.add(item);
+            }
+            
+            // 销售出库待审核
+            Long saleOutCount = depotHeadService.getTodoCount("出库", "销售", "0");
+            if (saleOutCount != null && saleOutCount > 0) {
+                Map<String, Object> item = new HashMap<>();
+                item.put("type", "sale_out");
+                item.put("title", "销售出库");
+                item.put("count", saleOutCount);
+                item.put("path", "/bill/sale_out");
+                todoList.add(item);
+            }
+            
+            // 销售退货待审核
+            Long saleBackCount = depotHeadService.getTodoCount("入库", "销售退货", "0");
+            if (saleBackCount != null && saleBackCount > 0) {
+                Map<String, Object> item = new HashMap<>();
+                item.put("type", "sale_back");
+                item.put("title", "销售退货");
+                item.put("count", saleBackCount);
+                item.put("path", "/bill/sale_back");
+                todoList.add(item);
+            }
+            
+            // 采购入库待审核
+            Long purchaseInCount = depotHeadService.getTodoCount("入库", "采购", "0");
+            if (purchaseInCount != null && purchaseInCount > 0) {
+                Map<String, Object> item = new HashMap<>();
+                item.put("type", "purchase_in");
+                item.put("title", "采购入库");
+                item.put("count", purchaseInCount);
+                item.put("path", "/bill/purchase_in");
+                todoList.add(item);
+            }
+            
+            // 采购退货待审核
+            Long purchaseBackCount = depotHeadService.getTodoCount("出库", "采购退货", "0");
+            if (purchaseBackCount != null && purchaseBackCount > 0) {
+                Map<String, Object> item = new HashMap<>();
+                item.put("type", "purchase_back");
+                item.put("title", "采购退货");
+                item.put("count", purchaseBackCount);
+                item.put("path", "/bill/purchase_back");
+                todoList.add(item);
+            }
+            
+            // 计算总待办数量
+            long totalCount = (saleOrderCount != null ? saleOrderCount : 0) + 
+                             (purchaseOrderCount != null ? purchaseOrderCount : 0) + 
+                             (saleOutCount != null ? saleOutCount : 0) + 
+                             (saleBackCount != null ? saleBackCount : 0) + 
+                             (purchaseInCount != null ? purchaseInCount : 0) + 
+                             (purchaseBackCount != null ? purchaseBackCount : 0);
+            
+            data.put("todoList", todoList);
+            data.put("totalCount", totalCount);
+            res.code = 200;
+            res.data = data;
+        } catch (Exception e) {
+            logger.error("获取待办事项数量失败", e);
+            res.code = 500;
+            res.data = "获取待办事项数量失败";
+        }
+        return res;
+    }
+
+    /**
      * 批量新增入库或出库单据
      * @param jsonObject
      * @param request

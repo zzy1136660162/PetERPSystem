@@ -111,6 +111,7 @@ const findBillDetailByNumber = (params)=>getAction("/depotHead/getDetailByNumber
 const waitBillCount = (params)=>getAction("/depotHead/waitBillCount",params);
 const getNeedCount = (params)=>getAction("/depotHead/getNeedCount",params);
 const batchAddDepotHeadAndDetail = (params)=>postAction("/depotHead/batchAddDepotHeadAndDetail",params);
+const getDepotHeadList = (params)=>getAction("/depotHead/list",params);
 const findStockByDepotAndBarCode = (params)=>getAction("/depotItem/findStockByDepotAndBarCode",params);
 const getBatchNumberList = (params)=>getAction("/depotItem/getBatchNumberList",params);
 const findFinancialDetailByNumber = (params)=>getAction("/accountHead/getDetailByNumber",params);
@@ -126,7 +127,10 @@ const editCustomerTag = (params)=>putAction("/customerTag/update",params);
 const deleteCustomerTag = (params)=>deleteAction("/customerTag/delete",params);
 //客户经手记录 - 使用customerFollowUp接口
 const addCustomerHandlerRecord = (params)=>postAction("/customerFollowUp/addHandlerRecord",params);
+const getCustomerHandlerRecordList = (params)=>getAction("/customerFollowUp/handlerRecordList",params);
 const getCustomerList = (params)=>getAction("/supplier/findBySelect",params);
+//待办事项
+const getTodoCount = (params)=>getAction("/depotHead/getTodoCount",params);
 
 export {
   getBuyAndSaleStatistics,
@@ -219,6 +223,7 @@ export {
   waitBillCount,
   getNeedCount,
   batchAddDepotHeadAndDetail,
+  getDepotHeadList,
   findStockByDepotAndBarCode,
   getBatchNumberList,
   findFinancialDetailByNumber,
@@ -231,7 +236,9 @@ export {
   editCustomerTag,
   deleteCustomerTag,
   addCustomerHandlerRecord,
-  getCustomerList
+  getCustomerHandlerRecordList,
+  getCustomerList,
+  getTodoCount
 }
 
 

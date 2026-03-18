@@ -449,8 +449,11 @@ public class UserController extends BaseController {
             res.data = data;
         } catch(Exception e){
             logger.error(e.getMessage(), e);
-            res.code = 500;
-            res.data = "获取失败";
+            // 即使获取失败，也返回空数据而不是错误，避免登录失败
+            res.code = 200;
+            Map<String, Object> data = new HashMap<>();
+            data.put("userBtn", new JSONArray());
+            res.data = data;
         }
         return res;
     }

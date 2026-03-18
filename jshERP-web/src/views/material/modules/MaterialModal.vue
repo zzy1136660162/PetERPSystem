@@ -18,162 +18,110 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
         <a-tabs v-model:activeKey="activeKey" size="small">
-          <a-tab-pane key="1" tab="基本信息" id="materialHeadModal" forceRender>
+          <a-tab-pane key="1" tab="宠物信息" id="materialPetModal" forceRender>
             <a-row class="form-row" :gutter="24">
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="名称" data-step="1" data-title="名称" data-intro="名称必填，可以重复">
-                  <a-input placeholder="请输入名称" v-decorator.trim="[ 'name', validatorRules.name ]" @change="handleNameChange" />
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="宠物名称">
+                  <a-input placeholder="请输入宠物名称" v-decorator.trim="[ 'name', validatorRules.name ]" @change="handleNameChange" />
                 </a-form-item>
               </a-col>
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="规格" data-step="2" data-title="规格" data-intro="规格不必填，比如：10克">
-                  <a-input placeholder="请输入规格" v-decorator.trim="[ 'standard', validatorRules.standard ]"/>
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="宠物类型">
+                  <a-select placeholder="请选择宠物类型" v-decorator="[ 'petType' ]">
+                    <a-select-option value="猫">猫</a-select-option>
+                    <a-select-option value="狗">狗</a-select-option>
+                    <a-select-option value="其他">其他</a-select-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="型号" data-step="3" data-title="型号" data-intro="型号是比规格更小的属性，比如：RX-01">
-                  <a-input placeholder="请输入型号" v-decorator.trim="[ 'model', validatorRules.model ]" />
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="品种">
+                  <a-input placeholder="请输入品种" v-decorator.trim="[ 'petBreed' ]" />
                 </a-form-item>
               </a-col>
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="单位"
-                  data-step="4" data-title="单位" data-intro="此处支持单个单位和多单位，勾选多单位就可以切换到多单位的下拉框，多单位需要先在【多单位】页面进行录入。
-                  比如牛奶有瓶和箱两种单位，12瓶=1箱，这就构成了多单位，多单位中有个换算比例">
-                  <a-row class="form-row" :gutter="24">
-                    <a-col :lg="15" :md="15" :sm="24" style="padding:0px 0px 0px 12px;">
-                      <a-input placeholder="输入单位" v-if="!unitChecked" v-decorator.trim="[ 'unit', validatorRules.unit ]" @change="onlyUnitOnChange" />
-                      <a-select :value="unitList" placeholder="选择多单位" v-decorator="[ 'unitId', validatorRules.unitId ]" @change="manyUnitOnChange"
-                        showSearch optionFilterProp="children" v-if="unitChecked" :dropdownMatchSelectWidth="false">
-                        <div slot="dropdownRender" slot-scope="menu">
-                          <v-nodes :vnodes="menu" />
-                          <a-divider style="margin: 4px 0;" />
-                          <div style="padding: 4px 8px; cursor: pointer;"
-                               @mousedown="e => e.preventDefault()" @click="addUnit"><a-icon type="plus" /> 新增多单位</div>
-                        </div>
-                        <a-select-option v-for="(item,index) in unitList"
-                          :key="index" :value="item.id">
-                          {{ item.name }}
-                        </a-select-option>
-                      </a-select>
-                    </a-col>
-                    <a-col :lg="9" :md="9" :sm="24" style="padding:0px; text-align:center">
-                      <a-checkbox :checked="unitChecked" @change="unitOnChange">多单位</a-checkbox>
-                    </a-col>
-                  </a-row>
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="昵称">
+                  <a-input placeholder="请输入昵称（可为空）" v-decorator.trim="[ 'petName' ]" />
+                </a-form-item>
+              </a-col>
+              <a-col :md="6" :sm="24">
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="性别">
+                  <a-select placeholder="请选择性别" v-decorator="[ 'petGender' ]">
+                    <a-select-option value="公">公</a-select-option>
+                    <a-select-option value="母">母</a-select-option>
+                    <a-select-option value="未知">未知</a-select-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
             </a-row>
             <a-row class="form-row" :gutter="24">
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="颜色" data-step="5" data-title="颜色"
-                             data-intro="请填写商品的颜色，如果是多属性商品可以不填（下面有多属性开关）">
-                  <a-input placeholder="请输入颜色" v-decorator.trim="[ 'color' ]" />
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="毛色">
+                  <a-input placeholder="请输入毛色" v-decorator.trim="[ 'petColor' ]" />
                 </a-form-item>
               </a-col>
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="品牌" data-step="6" data-title="品牌"
-                             data-intro="请填写商品的品牌，方便区别不同品牌的商品">
-                  <a-input placeholder="请输入品牌" v-decorator.trim="[ 'brand' ]" />
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="出生日期">
+                  <j-date placeholder="请选择出生日期" v-decorator="[ 'petBirthday' ]" />
                 </a-form-item>
               </a-col>
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="助记码" data-step="7" data-title="助记码"
-                             data-intro="助记码自动生成，助记码是商品名称的首字母缩写">
-                  <a-input placeholder="" v-decorator.trim="[ 'mnemonic' ]" :readOnly="true" />
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="重量(kg)">
+                  <a-input-number placeholder="请输入重量" style="width: 100%" v-decorator.trim="[ 'petWeight' ]" />
                 </a-form-item>
               </a-col>
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="类别"
-                             data-step="8" data-title="类别" data-intro="类别需要在【商品类别】页面进行录入，录入之后在此处进行调用">
-                  <a-tree-select style="width:100%" :dropdownStyle="{maxHeight:'200px',overflow:'auto'}" allow-clear
-                                 :treeData="categoryTree" v-decorator="[ 'categoryId' ]" placeholder="请选择类别">
-                  </a-tree-select>
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="来源类型">
+                  <a-select placeholder="请选择来源类型" v-decorator="[ 'sourceType' ]">
+                    <a-select-option value="采购">采购</a-select-option>
+                    <a-select-option value="自繁">自繁</a-select-option>
+                    <a-select-option value="寄售">寄售</a-select-option>
+                    <a-select-option value="领养代管">领养代管</a-select-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
             </a-row>
             <a-row class="form-row" :gutter="24">
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="基础重量" data-step="9" data-title="基础重量"
-                  data-intro="请填写基本单位对应的重量，用于计算按重量分摊费用时单据中各行商品分摊的费用成本">
-                  <a-input-number style="width: 100%" placeholder="请输入基础重量(kg)" v-decorator.trim="[ 'weight' ]" />
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="采购价">
+                  <a-input-number placeholder="请输入采购价" style="width: 100%" v-decorator.trim="[ 'purchasePrice' ]" />
                 </a-form-item>
               </a-col>
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="保质期" data-step="10" data-title="保质期"
-                  data-intro="保质期指的是商品的保质期(天)，主要针对带生产日期的，此类商品一般有批号">
-                  <a-input-number style="width: 100%" placeholder="请输入保质期(天)" v-decorator.trim="[ 'expiryNum' ]" />
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="疫苗状态">
+                  <a-select placeholder="请选择疫苗状态" v-decorator="[ 'vaccineStatus' ]">
+                    <a-select-option value="未接种">未接种</a-select-option>
+                    <a-select-option value="部分接种">部分接种</a-select-option>
+                    <a-select-option value="已完成">已完成</a-select-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="仓位货架" data-step="11" data-title="仓位货架"
-                             data-intro="仓位货架指的是仓库中的仓位和货架号，主要适用于仓库较大的场景，方便查找商品的准确位置">
-                  <a-input style="width: 100%" placeholder="请输入仓位货架" v-decorator.trim="[ 'position' ]" />
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="驱虫状态">
+                  <a-select placeholder="请选择驱虫状态" v-decorator="[ 'dewormStatus' ]">
+                    <a-select-option value="未驱虫">未驱虫</a-select-option>
+                    <a-select-option value="已驱虫">已驱虫</a-select-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="制造商" data-step="12" data-title="制造商"
-                             data-intro="请填写商品的制造商，一般适用于制造行业">
-                  <a-input placeholder="请输入制造商" v-decorator.trim="[ 'mfrs' ]" />
-                </a-form-item>
-              </a-col>
-            </a-row>
-            <a-row class="form-row" :gutter="24">
-              <a-col :lg="6" :md="6" :sm="6">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" :label="mpShort.otherField1.name">
-                  <a-input :placeholder="'请输入'+ mpShort.otherField1.name" v-decorator.trim="[ 'otherField1' ]" />
-                </a-form-item>
-              </a-col>
-              <a-col :lg="6" :md="6" :sm="6">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" :label="mpShort.otherField2.name">
-                  <a-input :placeholder="'请输入'+ mpShort.otherField2.name" v-decorator.trim="[ 'otherField2' ]" />
-                </a-form-item>
-              </a-col>
-              <a-col :lg="6" :md="6" :sm="6">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" :label="mpShort.otherField3.name">
-                  <a-input :placeholder="'请输入'+ mpShort.otherField3.name" v-decorator.trim="[ 'otherField3' ]" />
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="是否绝育">
+                  <a-select placeholder="请选择是否绝育" v-decorator="[ 'sterilizedFlag' ]">
+                    <a-select-option value="0">否</a-select-option>
+                    <a-select-option value="1">是</a-select-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
             </a-row>
             <a-row class="form-row" :gutter="24">
               <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="序列号" data-step="13" data-title="序列号"
-                  data-intro="此处是商品的序列号开关，如果选择了有，则在采购入库单据需要录入该商品的序列号，在销售出库单据需要选择该商品的序列号进行出库">
-                  <a-tooltip title="如果选择为有，则在采购入库单需要录入该商品的序列号">
-                    <a-select placeholder="有无序列号" v-decorator="[ 'enableSerialNumber' ]">
-                      <a-select-option value="1">有</a-select-option>
-                      <a-select-option value="0">无</a-select-option>
-                    </a-select>
-                  </a-tooltip>
-                </a-form-item>
-              </a-col>
-              <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="批号" data-step="14" data-title="批号"
-                  data-intro="此处是商品的批号开关，如果选择了有，则在采购入库单据需要录入该商品的批号和有效期，在销售出库单据需要选择该商品的批号进行出库">
-                  <a-tooltip title="如果选择为有，则在采购入库单需要录入该商品的批号和有效期">
-                    <a-select placeholder="有无批号" v-decorator="[ 'enableBatchNumber' ]">
-                      <a-select-option value="1">有</a-select-option>
-                      <a-select-option value="0">无</a-select-option>
-                    </a-select>
-                  </a-tooltip>
-                </a-form-item>
-              </a-col>
-              <a-col :md="6" :sm="24">
-                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="多属性" data-step="15" data-title="多属性"
-                  data-intro="多属性是针对的sku商品（比如服装、鞋帽、家纺行业），此处开关如果启用就可以在下方进行多sku的配置，配置具体的颜色、尺码之类的组合">
-                  <a-tooltip title="多属性针对服装、鞋帽、家纺等行业（注意不要勾选多单位，因为多属性商品不支持多单位，只支持单个的单位）">
-                    <a-select mode="multiple" v-decorator="[ 'manySku' ]" showSearch optionFilterProp="children"
-                      placeholder="请选择多属性（可多选）" @change="onManySkuChange" :disabled="attributeStatus">
-                      <div slot="dropdownRender" slot-scope="menu">
-                        <v-nodes :vnodes="menu" />
-                        <a-divider style="margin: 4px 0;" />
-                        <div style="padding: 4px 8px; cursor: pointer;"
-                             @mousedown="e => e.preventDefault()" @click="initMaterialAttribute">没找到？点此刷新列表 <a-icon type="reload" /></div>
-                      </div>
-                      <a-select-option v-for="(item,index) in materialAttributeList" :key="index" :value="item.value" :disabled="item.disabled">
-                        {{ item.name }}
-                      </a-select-option>
-                    </a-select>
-                  </a-tooltip>
+                <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="健康状态">
+                  <a-select placeholder="请选择健康状态" v-decorator="[ 'healthStatus' ]">
+                    <a-select-option value="健康">健康</a-select-option>
+                    <a-select-option value="观察中">观察中</a-select-option>
+                    <a-select-option value="治疗中">治疗中</a-select-option>
+                    <a-select-option value="禁售">禁售</a-select-option>
+                  </a-select>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -280,6 +228,7 @@
               <a-col :lg="6" :md="6" :sm="24"></a-col>
             </a-row>
           </a-tab-pane>
+          </a-tab-pane>
         </a-tabs>
       </a-form>
     </a-spin>
@@ -367,13 +316,14 @@
           columns: [
             {
               title: '条码', key: 'barCode', width: '15%', type: FormTypes.input, defaultValue: '', placeholder: '请输入${title}',
-              validateRules: [{ required: true, message: '${title}不能为空' },
+              validateRules: [
                 { pattern: /^.{4,40}$/, message: '长度为4到40位' },
                 { handler: this.validateBarCode}]
+              // 移除必填验证，让宠物商品条码可选
             },
             {
-              title: '单位', key: 'commodityUnit', width: '8%', type: FormTypes.input, defaultValue: '', placeholder: '请输入${title}',
-              validateRules: [{ required: true, message: '${title}不能为空' }]
+              title: '单位', key: 'commodityUnit', width: '8%', type: FormTypes.input, defaultValue: '', placeholder: '请输入${title}'
+              // 移除必填验证，让宠物商品不受单位限制
             },
             {
               title: '多属性', key: 'sku', width: '25%', type: FormTypes.input, defaultValue: '', readonly:true, placeholder: '请输入${title}'
@@ -518,6 +468,10 @@
           }
         }
         this.$nextTick(() => {
+          // 为宠物商品设置默认单位
+          if(this.model.petType && !this.model.unit) {
+            this.model.unit = '只'
+          }
           this.form.setFieldsValue(pick(this.model, 'name', 'standard', 'unit', 'unitId', 'model', 'color', 'brand', 'mnemonic',
             'categoryId','enableSerialNumber','enableBatchNumber','position','expiryNum','weight','remark','mfrs',
             'otherField1','otherField2','otherField3','manySku','skuOne','skuTwo','skuThree'))
@@ -663,7 +617,8 @@
           formData.id = ''
           formData.tenantId = ''
         }
-        if(formData.meList.length === 0) {
+        // 宠物商品特殊处理 - 条码可选
+        if(formData.meList.length === 0 && !formData.petType) {
           this.$message.warning('抱歉，请输入条码信息！');
           return;
         }
@@ -671,11 +626,13 @@
           this.$message.warning('抱歉，序列号和批号只能选择一项！');
           return;
         }
-        if(formData.manySku && formData.unitId) {
+        // 宠物商品特殊处理 - 允许多属性和多单位同时存在
+        if(formData.manySku && formData.unitId && !formData.petType) {
           this.$message.warning('抱歉，多属性商品不能勾选多单位，请切换为单个单位！');
           return;
         }
         //校验商品是否存在，通过校验商品的名称、型号、规格、颜色、单位、制造商等
+        // 宠物商品特殊处理 - 跳过单位相关的重复性校验
         let param = {
           id: this.model.id?this.model.id:0,
           name: this.model.name,
@@ -686,8 +643,8 @@
           otherField1: this.parseParam(this.model.otherField1),
           otherField2: this.parseParam(this.model.otherField2),
           otherField3: this.parseParam(this.model.otherField3),
-          unit: this.parseParam(this.model.unit),
-          unitId: this.parseParam(this.model.unitId)
+          unit: this.model.petType ? '' : this.parseParam(this.model.unit),  // 宠物商品不校验单位
+          unitId: this.model.petType ? '' : this.parseParam(this.model.unitId)  // 宠物商品不校验多单位
         }
         checkMaterial(param).then((res)=>{
           if(res && res.code===200) {
@@ -712,27 +669,36 @@
                   }
                 }
               }
-              if(!formData.unit) {
+              // 宠物商品完全跳过单位验证
+              if(formData.petType) {
+                // 宠物商品不受单位限制，跳过所有单位验证
+              } else if(!formData.unit) {
                 //此时为多单位
-                if (formData.meList.length<2){
-                  this.$message.warning('多单位的商品条码行数至少要有两行，请再新增一行条码信息！');
+                if (formData.meList.length<1){
+                  this.$message.warning('多单位的商品条码行数至少要有一行，请新增条码信息！');
                   return;
                 }
-                if(formData.meList[0].commodityUnit != basicUnit) {
-                  this.$message.warning('条码之后的单位填写有误，单位【' + formData.meList[0].commodityUnit
-                    + '】请修改为【' + basicUnit + '】！');
-                  return;
-                }
-                if(formData.meList[1].commodityUnit != otherUnit) {
-                  this.$message.warning('条码之后的单位填写有误，单位【' + formData.meList[1].commodityUnit
-                    + '】请修改为【' + otherUnit + '】！');
-                  return;
+                // 只验证存在的行，不强制要求两行
+                for(let i = 0; i < formData.meList.length; i++) {
+                  if(i === 0 && formData.meList[i].commodityUnit != basicUnit) {
+                    this.$message.warning('条码之后的单位填写有误，单位【' + formData.meList[i].commodityUnit
+                      + '】请修改为【' + basicUnit + '】！');
+                    return;
+                  }
+                  if(i === 1 && formData.meList[i].commodityUnit != otherUnit) {
+                    this.$message.warning('条码之后的单位填写有误，单位【' + formData.meList[i].commodityUnit
+                      + '】请修改为【' + otherUnit + '】！');
+                    return;
+                  }
                 }
               }
               let skuCount = 0
               for(let i=0; i<formData.meList.length; i++) {
                 let commodityUnit = formData.meList[i].commodityUnit;
-                if(formData.unit) {
+                // 宠物商品完全跳过单位验证
+                if(formData.petType) {
+                  // 宠物商品不受单位限制，跳过验证
+                } else if(formData.unit) {
                   if(commodityUnit != formData.unit) {
                     this.$message.warning('条码之后的单位填写有误，单位【' + commodityUnit + '】请修改为【'
                       + formData.unit + '】！');
@@ -980,6 +946,10 @@
       },
       autoSkuList(skuOneData, skuTwoData, skuThreeData) {
         let unit = this.form.getFieldValue('unit')
+        // 如果单位为空且是宠物商品，设置默认单位
+        if(!unit && this.model.petType) {
+          unit = '只'  // 宠物商品的默认单位
+        }
         //计算多属性已经选择了几个
         let skuArr = []
         if(this.getNumByField('skuOne')) {
@@ -1075,17 +1045,21 @@
         if(this.unitStatus == false) {
           unit = this.form.getFieldValue('unit')
         }
+        // 如果单位为空且是宠物商品，设置默认单位
+        if(!unit && this.model.petType) {
+          unit = '只'  // 宠物商品的默认单位
+        }
         if(this.maxBarCodeInfo === '') {
           getMaxBarCode({}).then((res)=> {
             if (res && res.code === 200) {
               this.maxBarCodeInfo = res.data.barCode
               this.maxBarCodeInfo = addBigNumbers(this.maxBarCodeInfo, 1)
-              target.setValues([{rowKey: row.id, values: {barCode: this.maxBarCodeInfo, commodityUnit: unit?unit:''}}])
+              target.setValues([{rowKey: row.id, values: {barCode: this.maxBarCodeInfo, commodityUnit: unit?unit:'只'}}])
             }
           })
         } else {
           this.maxBarCodeInfo = addBigNumbers(this.maxBarCodeInfo, 1)
-          target.setValues([{rowKey: row.id, values: {barCode: this.maxBarCodeInfo, commodityUnit: unit?unit:''}}])
+          target.setValues([{rowKey: row.id, values: {barCode: this.maxBarCodeInfo, commodityUnit: unit?unit:'只'}}])
         }
       },
       onDeleted(value) {

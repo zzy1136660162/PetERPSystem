@@ -1792,6 +1792,23 @@ public class DepotHeadService {
         return result;
     }
 
+    /**
+     * 获取待办事项数量（只根据状态统计，不关联明细表）
+     * @param type
+     * @param subType
+     * @param status
+     * @return
+     */
+    public Long getTodoCount(String type, String subType, String status) {
+        Long result = null;
+        try {
+            result = depotHeadMapperEx.getTodoCount(type, subType, status);
+        } catch (Exception e) {
+            JshException.readFail(logger, e);
+        }
+        return result;
+    }
+
     @Transactional(value = "transactionManager", rollbackFor = Exception.class)
     public void batchAddDepotHeadAndDetail(String ids, HttpServletRequest request) throws Exception {
         List<DepotHead> dhList = getDepotHeadListByIds(ids);

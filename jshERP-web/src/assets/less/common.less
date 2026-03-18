@@ -12,10 +12,10 @@
 .table-operator .ant-btn-group .ant-btn:last-child {
   margin: 0 8px 8px 0;
 }
-/*列表td的padding设置 可以控制列表大小*/
+/* 列表td的padding设置 可以控制列表大小*/
 .ant-table-tbody .ant-table-row td {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 .depot-mask {
   margin-top: 93px;
@@ -87,6 +87,64 @@
 }
 .resize-table-th {
   position: relative;
+  max-height: 20px !important;
+}
+
+/* 修复表头高度异常 */
+.ant-table-thead > tr > th {
+  padding: 12px 8px !important;
+  line-height: 1.5 !important;
+  height: auto !important;
+  min-height: 40px !important;
+}
+/* 修复表头拖拽区域高度 */
+.ant-table-thead > tr > th.resize-table-th {
+  padding-right: 15px !important;
+}
+
+/* 修复表格行高度 */
+.ant-table-tbody > tr > td {
+  padding: 12px 8px !important;
+  line-height: 1.5 !important;
+}
+
+/* 修复拖拽组件导致的表头高度异常 */
+.ant-table-thead > tr > th.resize-table-th .table-draggable-handle {
+  height: calc(100% - 4px) !important;
+  top: 2px !important;
+  bottom: 2px !important;
+}
+
+/* 修复表头内容对齐 */
+.ant-table-thead > tr > th .ant-table-header-column {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 20px !important;
+}
+
+/* 修复表头排序图标位置 */
+.ant-table-thead > tr > th .ant-table-column-sorter {
+  position: relative !important;
+  top: 0 !important;
+  margin-left: 4px !important;
+}
+
+/* 修复表格整体布局 */
+.ant-table table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+/* 修复表头单元格布局 */
+.ant-table-thead > tr > th {
+  box-sizing: border-box !important;
+  vertical-align: middle !important;
+}
+
+/* 修复表格内容对齐 */
+.ant-table-tbody > tr > td {
+  box-sizing: border-box !important;
+  vertical-align: middle !important;
 }
 /* 单据下拉框-按钮 */
 .dropdown-btn {

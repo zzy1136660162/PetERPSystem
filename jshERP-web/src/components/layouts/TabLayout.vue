@@ -121,6 +121,12 @@
       this.activePage = this.$route.fullPath
     },
     mounted() {
+      // 监听全局的dynamicRouterShow事件，用于次级导航栏跳转
+      this.$root.$on('dynamicRouterShow', this.dynamicRouterShow)
+    },
+    beforeDestroy() {
+      // 移除事件监听
+      this.$root.$off('dynamicRouterShow', this.dynamicRouterShow)
     },
     watch: {
       '$route': function(newRoute) {

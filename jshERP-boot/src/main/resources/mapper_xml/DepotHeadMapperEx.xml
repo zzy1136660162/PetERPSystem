@@ -1432,6 +1432,18 @@
         and ifnull(dh.delete_Flag,'0') !='1') tb
     </select>
 
+    <select id="getTodoCount" resultType="java.lang.Long">
+        select count(1) from jsh_depot_head dh
+        where ifnull(dh.delete_flag,'0') !='1'
+        and dh.status = #{status}
+        <if test="type != null">
+            and dh.type = #{type}
+        </if>
+        <if test="subType != null">
+            and dh.sub_type = #{subType}
+        </if>
+    </select>
+
     <select id="getBillAllPriceByOrganId" resultType="java.math.BigDecimal">
         select ifnull(sum(dh.total_price),0) allPrice from jsh_depot_head dh
         where dh.organ_id=#{organId}

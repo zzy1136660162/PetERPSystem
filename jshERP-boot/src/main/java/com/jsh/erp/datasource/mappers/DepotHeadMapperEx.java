@@ -298,6 +298,18 @@ public interface DepotHeadMapperEx {
             @Param("materialParam") String materialParam,
             @Param("depotArray") String[] depotArray);
 
+    /**
+     * 统计待办事项数量（只根据状态统计，不关联明细表）
+     * @param type
+     * @param subType
+     * @param status
+     * @return
+     */
+    Long getTodoCount(
+            @Param("type") String type,
+            @Param("subType") String subType,
+            @Param("status") String status);
+
     BigDecimal getBillAllPriceByOrganId(
             @Param("organId") Long organId);
 }

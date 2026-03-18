@@ -188,6 +188,8 @@ public class FunctionController extends BaseController {
             }
         } catch (DataAccessException e) {
             logger.error(">>>>>>>>>>>>>>>>>>>查找异常", e);
+            // 即使获取失败，也返回空数组而不是抛出异常，避免登录失败
+            return new JSONArray();
         }
         return dataArray;
     }

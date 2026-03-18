@@ -1,43 +1,51 @@
 <template>
   <div class="quick-nav-bar">
-    <a-button
-      :type="isActive('/bill/sale_order') ? 'primary' : 'default'"
-      icon="file-add"
-      @click="goToPage('/bill/sale_order', '销售订单')"
-      class="nav-btn"
-      :class="{ 'active-btn': isActive('/bill/sale_order') }">
-      销售订单
-    </a-button>
-    <a-button
-      :type="isActive('/bill/purchase_order') ? 'primary' : 'default'"
-      icon="shopping"
-      @click="goToPage('/bill/purchase_order', '采购订单')"
-      class="nav-btn"
-      :class="{ 'active-btn': isActive('/bill/purchase_order') }">
-      采购订单
-    </a-button>
-    <a-button
-      :type="isActive('/bill/sale_out') ? 'primary' : 'default'"
-      icon="export"
-      @click="goToPage('/bill/sale_out', '销售出库')"
-      class="nav-btn"
-      :class="{ 'active-btn': isActive('/bill/sale_out') }">
-      销售出库
-    </a-button>
-    <a-button
-      :type="isActive('/bill/sale_back') ? 'primary' : 'default'"
-      icon="rollback"
-      @click="goToPage('/bill/sale_back', '销售退货')"
-      class="nav-btn"
-      :class="{ 'active-btn': isActive('/bill/sale_back') }">
-      销售退货
-    </a-button>
+    <div class="nav-buttons">
+      <a-button
+        :type="isActive('/bill/sale_order') ? 'primary' : 'default'"
+        icon="file-add"
+        @click="goToPage('/bill/sale_order', '销售订单')"
+        class="nav-btn"
+        :class="{ 'active-btn': isActive('/bill/sale_order') }">
+        销售订单
+      </a-button>
+      <a-button
+        :type="isActive('/bill/purchase_order') ? 'primary' : 'default'"
+        icon="shopping"
+        @click="goToPage('/bill/purchase_order', '采购订单')"
+        class="nav-btn"
+        :class="{ 'active-btn': isActive('/bill/purchase_order') }">
+        采购订单
+      </a-button>
+      <a-button
+        :type="isActive('/bill/sale_out') ? 'primary' : 'default'"
+        icon="export"
+        @click="goToPage('/bill/sale_out', '销售出库')"
+        class="nav-btn"
+        :class="{ 'active-btn': isActive('/bill/sale_out') }">
+        销售出库
+      </a-button>
+      <a-button
+        :type="isActive('/bill/sale_back') ? 'primary' : 'default'"
+        icon="rollback"
+        @click="goToPage('/bill/sale_back', '销售退货')"
+        class="nav-btn"
+        :class="{ 'active-btn': isActive('/bill/sale_back') }">
+        销售退货
+      </a-button>
+    </div>
+    <todo-dropdown />
   </div>
 </template>
 
 <script>
+import TodoDropdown from './TodoDropdown'
+
 export default {
   name: 'QuickNavBar',
+  components: {
+    TodoDropdown
+  },
   data() {
     return {
       currentPath: ''
@@ -68,13 +76,38 @@ export default {
       let storeKey = 'route:title:' + path
       this.$ls.set(storeKey, title)
 
-      // 先设置当前路由的meta.title，确保TabLayout能正确显示标题
-      if (this.$route.meta) {
-        this.$route.meta.title = title
+      // 获取当前路由的菜单信息（从permissionList中获取菜单数据）
+      let menuItem = this.findMenuByPath(this.$store.state.user.permissionList, path)
+      if (menuItem) {
+        // 使用全局事件总线触发dynamicRouterShow，确保TabLayout能正确接收
+        this.$root.$emit('dynamicRouterShow', path, menuItem.id, title, menuItem.component)
+        
+        // 延迟执行路由跳转，确保TabLayout已经处理完标签页添加
+        this.$nextTick(() => {
+          // 使用router.push进行路由跳转
+          this.$router.push({ path: path })
+        })
+      } else {
+        // 如果没有找到菜单项，直接路由跳转
+        this.$router.push(path)
       }
-
-      // 使用path进行跳转
-      this.$router.push(path)
+    },
+    
+    // 根据路径查找菜单项（支持通过component路径匹配）
+    findMenuByPath(menus, path) {
+      for (let menu of menus) {
+        // 同时检查url和component是否匹配
+        if (menu.url === path || menu.component === path) {
+          return menu
+        }
+        if (menu.children && menu.children.length > 0) {
+          let result = this.findMenuByPath(menu.children, path)
+          if (result) {
+            return result
+          }
+        }
+      }
+      return null
     }
   }
 }
@@ -89,7 +122,13 @@ export default {
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+
+  .nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
   .nav-btn {
     border-radius: 4px;

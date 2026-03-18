@@ -3,7 +3,7 @@
   "version": "3.5.0",
   "private": true,
   "scripts": {
-    "dev":"vite",
+    "dev": "vite",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
@@ -52,6 +52,8 @@
     "html-webpack-plugin": "^4.2.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
+    "sass": "^1.98.0",
+    "sass-loader": "^10.5.2",
     "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {

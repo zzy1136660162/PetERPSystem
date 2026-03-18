@@ -22,11 +22,20 @@ router.beforeEach((to, from, next) => {
         store.dispatch('GetPermissionList').then(res => {
           const menuData = res;
           if (menuData === null || menuData === "" || menuData === undefined) {
+            // 如果权限数据为空，使用默认路由
+            let constRoutes = [];
+            constRoutes = generateIndexRouter([]);
+            store.dispatch('UpdateAppRouter',  { constRoutes });
+            const redirect = decodeURIComponent(from.query.redirect || to.path)
+            next({ path: redirect })
             return;
           }
           // 缓存用户的按钮权限
           store.dispatch('GetUserBtnList').then(res => {
             Vue.ls.set('winBtnStrList', res.data.userBtn, 7 * 24 * 60 * 60 * 1000)
+          }).catch(err => {
+            console.warn('获取用户按钮权限失败:', err)
+            // 即使按钮权限获取失败，也继续登录流程
           })
           let constRoutes = [];
           constRoutes = generateIndexRouter(menuData);
@@ -39,10 +48,14 @@ router.beforeEach((to, from, next) => {
             next({ path: redirect })
           })
         })
-        .catch(() => {
-          store.dispatch('Logout').then(() => {
-            next({ path: '/user/login' })
-          })
+        .catch((err) => {
+          console.warn('获取权限列表失败:', err)
+          // 即使权限获取失败，也允许登录，使用默认路由
+          let constRoutes = [];
+          constRoutes = generateIndexRouter([]);
+          store.dispatch('UpdateAppRouter',  { constRoutes });
+          const redirect = decodeURIComponent(from.query.redirect || to.path)
+          next({ path: redirect })
         })
       } else {
         if (to.path) {

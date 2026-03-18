@@ -129,6 +129,8 @@ const deleteCustomerTag = (params)=>deleteAction("/customerTag/delete",params);
 const addCustomerHandlerRecord = (params)=>postAction("/customerFollowUp/addHandlerRecord",params);
 const getCustomerHandlerRecordList = (params)=>getAction("/customerFollowUp/handlerRecordList",params);
 const getCustomerList = (params)=>getAction("/supplier/findBySelect",params);
+//待办事项
+const getTodoCount = (params)=>getAction("/depotHead/getTodoCount",params);
 
 export {
   getBuyAndSaleStatistics,
@@ -235,7 +237,8 @@ export {
   deleteCustomerTag,
   addCustomerHandlerRecord,
   getCustomerHandlerRecordList,
-  getCustomerList
+  getCustomerList,
+  getTodoCount
 }
 
 

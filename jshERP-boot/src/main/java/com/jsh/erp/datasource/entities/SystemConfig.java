@@ -47,6 +47,8 @@ public class SystemConfig {
 
     private String customerStaticPriceFlag;
 
+    private String receiveTypeConfig;
+
     private Long tenantId;
 
     private String deleteFlag;
@@ -233,6 +235,14 @@ public class SystemConfig {
 
     public void setCustomerStaticPriceFlag(String customerStaticPriceFlag) {
         this.customerStaticPriceFlag = customerStaticPriceFlag == null ? null : customerStaticPriceFlag.trim();
+    }
+
+    public String getReceiveTypeConfig() {
+        return receiveTypeConfig;
+    }
+
+    public void setReceiveTypeConfig(String receiveTypeConfig) {
+        this.receiveTypeConfig = receiveTypeConfig == null ? null : receiveTypeConfig.trim();
     }
 
     public Long getTenantId() {

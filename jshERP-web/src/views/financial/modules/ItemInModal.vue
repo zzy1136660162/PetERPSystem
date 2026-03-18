@@ -47,8 +47,8 @@
             </a-form-item>
           </a-col>
           <a-col :lg="6" :md="12" :sm="24">
-            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="财务人员">
-              <a-select placeholder="请选择财务人员" v-decorator="[ 'handsPersonId' ]"
+            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="经手人">
+              <a-select placeholder="请选择经手人" v-decorator="[ 'handsPersonId' ]"
                         :dropdownMatchSelectWidth="false" showSearch optionFilterProp="children">
                 <div slot="dropdownRender" slot-scope="menu">
                   <v-nodes :vnodes="menu" />
@@ -111,6 +111,15 @@
             </a-form-item>
           </a-col>
           <a-col :lg="6" :md="12" :sm="24">
+            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="付款方式">
+              <a-select placeholder="请选择付款方式" v-decorator="[ 'payType' ]"
+                        :dropdownMatchSelectWidth="false" showSearch optionFilterProp="children">
+                <a-select-option value="WECHAT">微信</a-select-option>
+                <a-select-option value="ALIPAY">支付宝</a-select-option>
+                <a-select-option value="DEBIT_CARD">储蓄卡</a-select-option>
+                <a-select-option value="CREDIT_CARD">信用卡</a-select-option>
+              </a-select>
+            </a-form-item>
           </a-col>
           <a-col :lg="6" :md="12" :sm="24">
           </a-col>

@@ -47,8 +47,8 @@
             </a-form-item>
           </a-col>
           <a-col :lg="6" :md="12" :sm="24">
-            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="财务人员">
-              <a-select placeholder="请选择财务人员" v-decorator="[ 'handsPersonId' ]"
+            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="经手人">
+              <a-select placeholder="请选择经手人" v-decorator="[ 'handsPersonId' ]"
                         :dropdownMatchSelectWidth="false" showSearch optionFilterProp="children">
                 <div slot="dropdownRender" slot-scope="menu">
                   <v-nodes :vnodes="menu" />

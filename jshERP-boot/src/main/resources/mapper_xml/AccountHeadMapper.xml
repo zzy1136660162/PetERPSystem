@@ -19,6 +19,8 @@
     <result column="source" jdbcType="VARCHAR" property="source" />
     <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
     <result column="delete_flag" jdbcType="VARCHAR" property="deleteFlag" />
+    <result column="pay_type" jdbcType="VARCHAR" property="payType" />
+    <result column="receive_type" jdbcType="VARCHAR" property="receiveType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -80,7 +82,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, type, organ_id, hands_person_id, creator, change_amount, discount_money, total_price, 
-    account_id, bill_no, bill_time, remark, file_name, status, source, tenant_id, delete_flag
+    account_id, bill_no, bill_time, remark, file_name, status, source, tenant_id, delete_flag,
+    pay_type, receive_type
   </sql>
   <select id="selectByExample" parameterType="com.jsh.erp.datasource.entities.AccountHeadExample" resultMap="BaseResultMap">
     select

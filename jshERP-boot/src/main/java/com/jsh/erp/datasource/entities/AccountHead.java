@@ -38,6 +38,10 @@ public class AccountHead {
 
     private String deleteFlag;
 
+    private String payType;
+
+    private String receiveType;
+
     public Long getId() {
         return id;
     }
@@ -172,5 +176,21 @@ public class AccountHead {
 
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag == null ? null : deleteFlag.trim();
+    }
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType == null ? null : payType.trim();
+    }
+
+    public String getReceiveType() {
+        return receiveType;
+    }
+
+    public void setReceiveType(String receiveType) {
+        this.receiveType = receiveType == null ? null : receiveType.trim();
     }
 }

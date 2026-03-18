@@ -34,6 +34,15 @@
     <result column="link_apply" jdbcType="VARCHAR" property="linkApply" />
     <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
     <result column="delete_flag" jdbcType="VARCHAR" property="deleteFlag" />
+    <result column="approval_step" jdbcType="INTEGER" property="approvalStep" />
+    <result column="current_approver_id" jdbcType="BIGINT" property="currentApproverId" />
+    <result column="current_approver_role" jdbcType="VARCHAR" property="currentApproverRole" />
+    <result column="approval_history" jdbcType="VARCHAR" property="approvalHistory" />
+    <result column="approval_comment" jdbcType="VARCHAR" property="approvalComment" />
+    <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="approve_time" jdbcType="TIMESTAMP" property="approveTime" />
+    <result column="warehouse_notified" jdbcType="VARCHAR" property="warehouseNotified" />
+    <result column="notification_time" jdbcType="TIMESTAMP" property="notificationTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -98,7 +107,9 @@
     account_id, change_amount, back_amount, total_price, pay_type, bill_type, remark, 
     file_name, sales_man, account_id_list, account_money_list, discount, discount_money, 
     discount_last_money, other_money, deposit, status, purchase_status, source, link_number, 
-    link_apply, tenant_id, delete_flag
+    link_apply, tenant_id, delete_flag,
+    approval_step, current_approver_id, current_approver_role, approval_history, approval_comment,
+    submit_time, approve_time, warehouse_notified, notification_time
   </sql>
   <select id="selectByExample" parameterType="com.jsh.erp.datasource.entities.DepotHeadExample" resultMap="BaseResultMap">
     select

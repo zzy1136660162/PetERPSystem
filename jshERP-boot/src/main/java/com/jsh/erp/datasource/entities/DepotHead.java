@@ -68,6 +68,24 @@ public class DepotHead {
 
     private String deleteFlag;
 
+    private Integer approvalStep;
+
+    private Long currentApproverId;
+
+    private String currentApproverRole;
+
+    private String approvalHistory;
+
+    private String approvalComment;
+
+    private Date submitTime;
+
+    private Date approveTime;
+
+    private String warehouseNotified;
+
+    private Date notificationTime;
+
     public Long getId() {
         return id;
     }
@@ -322,5 +340,77 @@ public class DepotHead {
 
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag == null ? null : deleteFlag.trim();
+    }
+
+    public Integer getApprovalStep() {
+        return approvalStep;
+    }
+
+    public void setApprovalStep(Integer approvalStep) {
+        this.approvalStep = approvalStep;
+    }
+
+    public Long getCurrentApproverId() {
+        return currentApproverId;
+    }
+
+    public void setCurrentApproverId(Long currentApproverId) {
+        this.currentApproverId = currentApproverId;
+    }
+
+    public String getCurrentApproverRole() {
+        return currentApproverRole;
+    }
+
+    public void setCurrentApproverRole(String currentApproverRole) {
+        this.currentApproverRole = currentApproverRole == null ? null : currentApproverRole.trim();
+    }
+
+    public String getApprovalHistory() {
+        return approvalHistory;
+    }
+
+    public void setApprovalHistory(String approvalHistory) {
+        this.approvalHistory = approvalHistory == null ? null : approvalHistory.trim();
+    }
+
+    public String getApprovalComment() {
+        return approvalComment;
+    }
+
+    public void setApprovalComment(String approvalComment) {
+        this.approvalComment = approvalComment == null ? null : approvalComment.trim();
+    }
+
+    public Date getSubmitTime() {
+        return submitTime;
+    }
+
+    public void setSubmitTime(Date submitTime) {
+        this.submitTime = submitTime;
+    }
+
+    public Date getApproveTime() {
+        return approveTime;
+    }
+
+    public void setApproveTime(Date approveTime) {
+        this.approveTime = approveTime;
+    }
+
+    public String getWarehouseNotified() {
+        return warehouseNotified;
+    }
+
+    public void setWarehouseNotified(String warehouseNotified) {
+        this.warehouseNotified = warehouseNotified == null ? null : warehouseNotified.trim();
+    }
+
+    public Date getNotificationTime() {
+        return notificationTime;
+    }
+
+    public void setNotificationTime(Date notificationTime) {
+        this.notificationTime = notificationTime;
     }
 }

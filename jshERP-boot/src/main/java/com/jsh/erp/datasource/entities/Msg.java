@@ -21,6 +21,14 @@ public class Msg {
 
     private String deleteFlag;
 
+    private String businessType;
+
+    private Long businessId;
+
+    private String isRead;
+
+    private String actionUrl;
+
     public Long getId() {
         return id;
     }
@@ -91,5 +99,37 @@ public class Msg {
 
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag == null ? null : deleteFlag.trim();
+    }
+
+    public String getBusinessType() {
+        return businessType;
+    }
+
+    public void setBusinessType(String businessType) {
+        this.businessType = businessType == null ? null : businessType.trim();
+    }
+
+    public Long getBusinessId() {
+        return businessId;
+    }
+
+    public void setBusinessId(Long businessId) {
+        this.businessId = businessId;
+    }
+
+    public String getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(String isRead) {
+        this.isRead = isRead == null ? null : isRead.trim();
+    }
+
+    public String getActionUrl() {
+        return actionUrl;
+    }
+
+    public void setActionUrl(String actionUrl) {
+        this.actionUrl = actionUrl == null ? null : actionUrl.trim();
     }
 }

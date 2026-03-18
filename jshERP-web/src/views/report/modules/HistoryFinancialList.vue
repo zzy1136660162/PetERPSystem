@@ -55,8 +55,8 @@
             </span>
             <template v-if="toggleSearchStatus">
               <a-col :md="6" :sm="24">
-                <a-form-item label="财务人员" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                  <a-select placeholder="请选择财务人员" showSearch optionFilterProp="children" v-model="queryParam.handsPersonId">
+                <a-form-item label="经手人" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                  <a-select placeholder="请选择经手人" showSearch optionFilterProp="children" v-model="queryParam.handsPersonId">
                     <a-select-option v-for="(item,index) in personList" :key="index" :value="item.id">
                       {{ item.name }}
                     </a-select-option>

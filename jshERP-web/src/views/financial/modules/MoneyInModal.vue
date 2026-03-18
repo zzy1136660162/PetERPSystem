@@ -48,8 +48,8 @@
             </a-form-item>
           </a-col>
           <a-col :lg="6" :md="12" :sm="24">
-            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="财务人员">
-              <a-select placeholder="请选择财务人员" v-decorator="[ 'handsPersonId' ]"
+            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="经手人">
+              <a-select placeholder="请选择经手人" v-decorator="[ 'handsPersonId' ]"
                         :dropdownMatchSelectWidth="false" showSearch optionFilterProp="children">
                 <div slot="dropdownRender" slot-scope="menu">
                   <v-nodes :vnodes="menu" />
@@ -117,6 +117,22 @@
                   {{ item.name }}
                 </a-select-option>
               </a-select>
+            </a-form-item>
+            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="收款方式">
+              <div class="receive-type-list">
+                <a-tag
+                  v-for="(item,index) in receiveTypeList"
+                  :key="index"
+                  :color="form.getFieldValue('receiveType') === item.value ? 'blue' : ''"
+                  @click="handleReceiveTypeClick(item.value)"
+                  style="cursor: pointer; margin-right: 8px; margin-bottom: 4px;">
+                  {{ item.label }}
+                </a-tag>
+              </div>
+              <a-input v-decorator="[ 'receiveType' ]" style="display: none;"/>
+            </a-form-item>
+            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="备注说明">
+              <a-input placeholder="请输入收款方式备注" v-decorator="[ 'receiveTypeRemark' ]"/>
             </a-form-item>
           </a-col>
           <a-col :lg="6" :md="12" :sm="24">
@@ -217,6 +233,7 @@
           ]
         },
         confirmLoading: false,
+        receiveTypeList: [],
         validatorRules:{
           organId:{
             rules: [{ required: true, message: '请选择客户!' }]
@@ -276,6 +293,35 @@
         this.initPerson()
         this.initAccount()
         this.initQuickBtn()
+        this.initReceiveType()
+      },
+      initReceiveType() {
+        // 从系统配置中获取收款方式列表
+        getCurrentSystemConfig().then((res) => {
+          if(res.code === 200 && res.data && res.data.receiveTypeConfig){
+            try {
+              this.receiveTypeList = JSON.parse(res.data.receiveTypeConfig)
+            } catch(e) {
+              // 如果解析失败，使用默认收款方式
+              this.receiveTypeList = [
+                { value: 'CASH', label: '现金' },
+                { value: 'WECHAT', label: '微信' },
+                { value: 'ALIPAY', label: '支付宝' },
+                { value: 'BANK_CARD', label: '银行卡' },
+                { value: 'CHECK', label: '支票' }
+              ]
+            }
+          } else {
+            // 默认收款方式
+            this.receiveTypeList = [
+              { value: 'CASH', label: '现金' },
+              { value: 'WECHAT', label: '微信' },
+              { value: 'ALIPAY', label: '支付宝' },
+              { value: 'BANK_CARD', label: '银行卡' },
+              { value: 'CHECK', label: '支票' }
+            ]
+          }
+        })
       },
       //提交单据时整理成formData
       classifyIntoFormData(allValues) {
@@ -307,6 +353,9 @@
         } else {
           this.$message.warning('请选择客户！');
         }
+      },
+      handleReceiveTypeClick(value) {
+        this.form.setFieldsValue({ 'receiveType': value })
       }
     }
   }
@@ -317,5 +366,11 @@
   }
   .gap {
     padding-left: 8px;
+  }
+  .receive-type-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    min-height: 32px;
   }
 </style>

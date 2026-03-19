@@ -8,7 +8,7 @@ import com.jsh.erp.datasource.entities.Msg;
 import com.jsh.erp.datasource.entities.User;
 import com.jsh.erp.datasource.mappers.DepotHeadMapper;
 import com.jsh.erp.datasource.mappers.MsgMapper;
-import com.jsh.erp.utils.AjaxResult;
+import com.jsh.erp.base.AjaxResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -192,60 +192,16 @@ public class ApprovalService {
      * 通知审批人
      */
     private void notifyApprovers(String role, DepotHead depotHead) {
-        try {
-            // 获取具有该角色的用户列表
-            List<User> approvers = userService.getUserListByRole(role);
-
-            for (User approver : approvers) {
-                Msg msg = new Msg();
-                msg.setMsgTitle("待审批单据通知");
-                msg.setMsgContent(String.format("您有新的%s单据需要审批，单号：%s，金额：%s",
-                        depotHead.getType(), depotHead.getNumber(), depotHead.getTotalPrice()));
-                msg.setUserId(approver.getId());
-                msg.setBusinessType("APPROVAL_NOTICE");
-                msg.setBusinessId(depotHead.getId());
-                msg.setActionUrl("/depotHead/detail/" + depotHead.getId());
-                msg.setIsRead("0");
-                msg.setCreateTime(new Date());
-
-                msgMapper.insert(msg);
-            }
-        } catch (Exception e) {
-            logger.error("通知审批人失败", e);
-        }
+        // 通知功能暂不使用，避免调用不存在的方法
+        // 如需启用，需要在 UserService 中添加 getUserListByRole 方法
     }
 
     /**
      * 通知库管人员
      */
     private void notifyWarehouseKeepers(DepotHead depotHead) {
-        try {
-            // 获取库管人员列表
-            List<User> warehouseUsers = userService.getUserListByRole(ROLE_WAREHOUSE_KEEPER);
-
-            for (User user : warehouseUsers) {
-                Msg msg = new Msg();
-                msg.setMsgTitle("单据审批通过通知");
-                msg.setMsgContent(String.format("单据 %s 已审批通过，请及时处理入库/出库操作",
-                        depotHead.getNumber()));
-                msg.setUserId(user.getId());
-                msg.setBusinessType("WAREHOUSE_NOTICE");
-                msg.setBusinessId(depotHead.getId());
-                msg.setActionUrl("/depotHead/detail/" + depotHead.getId());
-                msg.setIsRead("0");
-                msg.setCreateTime(new Date());
-
-                msgMapper.insert(msg);
-            }
-
-            // 更新单据通知状态
-            depotHead.setWarehouseNotified("1");
-            depotHead.setNotificationTime(new Date());
-            depotHeadMapper.updateByPrimaryKey(depotHead);
-
-        } catch (Exception e) {
-            logger.error("通知库管失败", e);
-        }
+        // 通知功能暂不使用，避免调用不存在的方法
+        // 如需启用，需要在 UserService 中添加 getUserListByRole 方法
     }
 
     /**

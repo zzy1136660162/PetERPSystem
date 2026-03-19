@@ -127,8 +127,8 @@ const editCustomerTag = (params)=>putAction("/customerTag/update",params);
 const deleteCustomerTag = (params)=>deleteAction("/customerTag/delete",params);
 //客户经手记录 - 使用customerFollowUp接口
 const addCustomerHandlerRecord = (params)=>postAction("/customerFollowUp/addHandlerRecord",params);
-const getCustomerHandlerRecordList = (params)=>getAction("/customerFollowUp/handlerRecordList",params);
-const getCustomerList = (params)=>getAction("/supplier/findBySelect",params);
+const getCustomerHandlerRecordList = (params)=>getAction("/customerFollowUp/handlerRecordList",params);//获取客户列表
+const getCustomerList = (params)=>postAction("/supplier/findBySelect_cus",params);
 //待办事项
 const getTodoCount = (params)=>getAction("/depotHead/getTodoCount",params);
 

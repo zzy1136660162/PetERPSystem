@@ -93,7 +93,6 @@
         <customer-modal ref="modalForm" @ok="modalFormOk"></customer-modal>
         <customer-user-modal ref="customerUserModal" @ok="modalFormOk"></customer-user-modal>
         <customer-handler-record-modal ref="customerHandlerRecordModal"></customer-handler-record-modal>
-        <customer-order-history-modal ref="customerOrderHistoryModal"></customer-order-history-modal>
       </a-card>
     </a-col>
   </a-row>
@@ -102,7 +101,6 @@
   import CustomerModal from './modules/CustomerModal'
   import CustomerUserModal from './modules/CustomerUserModal'
   import CustomerHandlerRecordModal from './modules/CustomerHandlerRecordModal'
-  import CustomerOrderHistoryModal from './modules/CustomerOrderHistoryModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import { getAction } from '@/api/manage'
   import Vue from 'vue'
@@ -113,8 +111,7 @@
     components: {
       CustomerModal,
       CustomerUserModal,
-      CustomerHandlerRecordModal,
-      CustomerOrderHistoryModal
+      CustomerHandlerRecordModal
     },
     data () {
       return {
@@ -201,7 +198,7 @@
       },
       //查看历史订单
       btnViewOrder(record) {
-        this.$refs.customerOrderHistoryModal.show(record.id, record.supplier)
+        this.$message.info('历史订单功能暂不可用')
       }
     }
   }

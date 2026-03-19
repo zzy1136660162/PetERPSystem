@@ -2,7 +2,7 @@
   <div ref="container">
     <a-modal
       :title="title"
-      :width="800"
+      :width="750"
       :visible="visible"
       :getContainer="() => $refs.container"
       :maskStyle="{'top':'93px','left':'154px'}"
@@ -122,5 +122,5 @@
   }
 </script>
 <style scoped>
-  @import '~@assets/less/common.less'
+  @import '~@assets/less/common.less';
 </style>

@@ -34,12 +34,14 @@
         销售退货
       </a-button>
     </div>
-    <todo-dropdown />
+    <div class="todo-section">
+      <todo-dropdown @todoClick="goToPage" />
+    </div>
   </div>
 </template>
 
 <script>
-import TodoDropdown from './TodoDropdown'
+import TodoDropdown from './TodoDropdown.vue'
 
 export default {
   name: 'QuickNavBar',
@@ -128,6 +130,10 @@ export default {
     display: flex;
     align-items: center;
     gap: 12px;
+  }
+
+  .todo-section {
+    margin-left: auto;
   }
 
   .nav-btn {

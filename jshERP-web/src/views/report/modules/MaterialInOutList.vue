@@ -2,7 +2,7 @@
   <div ref="container">
     <a-modal
       :title="title"
-      :width="1400"
+      :width="1300"
       :visible="visible"
       :getContainer="() => $refs.container"
       :maskStyle="{'top':'93px','left':'154px'}"
@@ -113,17 +113,17 @@
             }
           },
           {
-            title: '单据编号', dataIndex: 'number', width: 120,
+            title: '单据编号', dataIndex: 'number', width: 70,
             scopedSlots: { customRender: 'numberCustomRender' },
           },
-          { title: '类型', dataIndex: 'type', width: 80},
-          { title: '条码', dataIndex: 'barCode', width: 100},
-          { title: '名称', dataIndex: 'materialName', width: 200},
-          { title: '仓库名称', dataIndex: 'depotName', width: 80},
-          { title: '数量', dataIndex: 'basicNumber', width: 70},
-          { title: '单价', dataIndex: 'unitPrice', width: 70},
-          { title: '金额', dataIndex: 'allPrice', width: 70},
-          { title: '日期', dataIndex: 'operTime', width: 110}
+          { title: '类型', dataIndex: 'type', width: 30},
+          { title: '条码', dataIndex: 'barCode', width: 30},
+          { title: '名称', dataIndex: 'materialName', width: 50},
+          { title: '仓库名称', dataIndex: 'depotName', width: 30},
+          { title: '数量', dataIndex: 'basicNumber', width: 30},
+          { title: '单价', dataIndex: 'unitPrice', width: 30},
+          { title: '金额', dataIndex: 'allPrice', width: 30},
+          { title: '日期', dataIndex: 'operTime', width: 70}
         ],
         labelCol: {
           xs: { span: 1 },
@@ -198,5 +198,14 @@
   }
 </script>
 <style scoped>
-  @import '~@assets/less/common.less'
+  @import '~@assets/less/common.less';
+  div{
+    width: 1600px;
+  }
+  .ant-input{
+    width: 150px;
+  }
+  .ant-calendar-picker{
+    width: 400px !important;
+  }
 </style>

@@ -1,8 +1,8 @@
 package com.jsh.erp.controller;
 
 import com.jsh.erp.base.BaseController;
+import com.jsh.erp.base.AjaxResult;
 import com.jsh.erp.service.ApprovalService;
-import com.jsh.erp.utils.AjaxResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

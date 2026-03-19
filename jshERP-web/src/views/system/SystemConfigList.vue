@@ -1,5 +1,5 @@
 <template>
-  <a-card :style="cardStyle" :bordered="false">
+  <a-card :style="cardStyle" :bordered="false" class="all">
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
         <a-row class="form-row" :gutter="24">
@@ -460,5 +460,10 @@
   }
 </script>
 <style scoped>
-  @import '~@assets/less/common.less'
+  @import '~@assets/less/common.less';
+  .all{
+    padding-bottom: 10px;
+    box-sizing: border-box;
+    overflow: auto;
+  }
 </style>

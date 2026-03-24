@@ -144,8 +144,18 @@ public class FunctionController extends BaseController {
     @ApiOperation(value = "根据父编号查询菜单")
     public JSONArray findMenuByPNumber(@RequestBody JSONObject jsonObject,
                               HttpServletRequest request)throws Exception {
+        // 参数验证
+        if (jsonObject == null) {
+            throw new IllegalArgumentException("请求参数不能为空");
+        }
         String pNumber = jsonObject.getString("pNumber");
         String userId = jsonObject.getString("userId");
+        
+        // 参数空值检查
+        if (StringUtil.isEmpty(pNumber) || StringUtil.isEmpty(userId)) {
+            throw new IllegalArgumentException("pNumber和userId参数不能为空");
+        }
+        
         //存放数据json数组
         JSONArray dataArray = new JSONArray();
         try {
@@ -198,7 +208,7 @@ public class FunctionController extends BaseController {
         JSONArray dataArray = new JSONArray();
         for (Function function : dataList) {
             //如果不是超管也不是租户就需要校验，防止分配下级用户的功能权限，大于租户的权限
-            if("admin".equals(userInfo.getLoginName()) || userInfo.getId().equals(userInfo.getTenantId()) || funIdMap.get(function.getId())!=null) {
+            if("admin".equals(userInfo.getLoginName()) || userInfo.getId().equals(userInfo.getTenantId()) || (funIdMap != null && funIdMap.get(function.getId())!=null)) {
                 //如果关闭多级审核，遇到任务审核菜单直接跳过
                 if("0".equals(approvalFlag) && "/workflow".equals(function.getUrl())) {
                     continue;

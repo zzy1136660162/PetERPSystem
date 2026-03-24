@@ -32,6 +32,14 @@ public class GlobalExceptionHandler {
             return status;
         }
 
+        // 处理参数验证异常
+        if (e instanceof IllegalArgumentException) {
+            status.put(ExceptionConstants.GLOBAL_RETURNS_CODE, ExceptionConstants.PARAMETER_ERROR_CODE);
+            status.put(ExceptionConstants.GLOBAL_RETURNS_DATA, e.getMessage());
+            log.warn("Parameter Validation Exception => url : {}, msg : {}", request.getRequestURL(), e.getMessage());
+            return status;
+        }
+        
         status.put(ExceptionConstants.GLOBAL_RETURNS_CODE, ExceptionConstants.SERVICE_SYSTEM_ERROR_CODE);
         status.put(ExceptionConstants.GLOBAL_RETURNS_DATA, ExceptionConstants.SERVICE_SYSTEM_ERROR_MSG);
         log.error("Global Exception Occured => url : {}, msg : {}", request.getRequestURL(), e.getMessage());

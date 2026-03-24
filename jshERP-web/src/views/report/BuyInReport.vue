@@ -2,7 +2,7 @@
 <template>
   <a-row :gutter="24">
     <a-col :md="24">
-      <a-card :style="cardStyle" :bordered="false">
+      <a-card :style="cardStyle" :bordered="false" class="all">
         <!-- 查询区域 -->
         <div class="table-page-search-wrapper">
           <a-form layout="inline" @keyup.enter.native="searchQuery">
@@ -698,4 +698,7 @@
 </script>
 <style scoped>
   @import '~@assets/less/common.less';
+  .all{
+    overflow: auto;
+  }
 </style>

@@ -35,6 +35,11 @@ public class ExceptionConstants {
     public static final int SERVICE_SYSTEM_ERROR_CODE = 500;
     public static final String SERVICE_SYSTEM_ERROR_MSG = "未知异常";
     /**
+     * 参数验证错误
+     **/
+    public static final int PARAMETER_ERROR_CODE = 400;
+    public static final String PARAMETER_ERROR_MSG = "参数验证失败";
+    /**
      * 检测到存在依赖数据，是否强制删除？
      **/
     public static final int DELETE_FORCE_CONFIRM_CODE = 601;

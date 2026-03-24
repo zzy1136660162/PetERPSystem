@@ -75,6 +75,12 @@ service.interceptors.request.use(config => {
   if (token) {
     config.headers[ 'X-Access-Token' ] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
   }
+  
+  // 添加兼容性请求头，解决Edge浏览器问题
+  config.headers[ 'Cache-Control' ] = 'no-cache'
+  config.headers[ 'Pragma' ] = 'no-cache'
+  config.withCredentials = true
+  
   return config
 },(error) => {
   return Promise.reject(error)

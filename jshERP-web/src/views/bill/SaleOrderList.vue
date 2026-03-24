@@ -158,7 +158,6 @@
             :dataSource="dataSource"
             :components="handleDrag(columns)"
             :pagination="ipagination"
-            :scroll="scroll"
             :loading="loading"
             :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
             :expandedRowKeys="expandedRowKeys"

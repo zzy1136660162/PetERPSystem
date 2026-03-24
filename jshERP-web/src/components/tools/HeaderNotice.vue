@@ -201,10 +201,10 @@
         const key = `open${Date.now()}`;
         this.$notification.open({
           message: '消息提醒',
-          placement:'bottomRight',
+          placement: 'bottomRight',
           description: text,
           key,
-          btn: (h)=>{
+          btn: (h) => {
             return h('a-button', {
               props: {
                 type: 'primary',
@@ -214,36 +214,36 @@
                 click: () => this.showDetail(key,data)
               }
             }, '查看详情')
-          },
-        });
+          }
+        })
       },
 
-      reconnect() {
-        var that = this;
-        if(that.lockReconnect) return;
-        that.lockReconnect = true;
+      reconnect () {
+        var that = this
+        if (that.lockReconnect) return
+        that.lockReconnect = true
         //没连接上会一直重连，设置延迟避免请求过多
         setTimeout(function () {
           console.info("尝试重连...");
-          that.initWebSocket();
-          that.lockReconnect = false;
+          that.initWebSocket()
+          that.lockReconnect = false
         }, 5000);
       },
-      heartCheckFun(){
+      heartCheckFun () {
         var that = this;
         //心跳检测,每20s心跳一次
         that.heartCheck = {
           timeout: 20000,
           timeoutObj: null,
           serverTimeoutObj: null,
-          reset: function(){
+          reset: function () {
             clearTimeout(this.timeoutObj);
             //clearTimeout(this.serverTimeoutObj);
             return this;
           },
-          start: function(){
+          start: function () {
             var self = this;
-            this.timeoutObj = setTimeout(function(){
+            this.timeoutObj = setTimeout(function () {
               //这里发送一个心跳，后端收到后，返回一个心跳消息，
               //onmessage拿到返回的心跳就说明连接正常
               that.websocketSend("HeartBeat");

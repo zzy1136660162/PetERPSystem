@@ -32,15 +32,17 @@
     <!-- update-end author:sunjianlei date:20200219 for: 菜单搜索改为动态组件，在手机端呈现出弹出框 -->
     <!-- update-end author:sunjianlei date:20191220 for: 解决全局样式冲突的问题 -->
     <!-- update_end  author:zhaoxin date:20191129 for: 做头部菜单栏导航 -->
-    <span class="action">
+    <!-- 官方网站链接已隐藏 -->
+    <!-- <span class="action">
       <a-tooltip>
         <template slot="title">官方网站</template>
         <a target="_blank" :href="systemUrl">
           <a-icon type="bank" style="font-size: 16px;" />
         </a>
       </a-tooltip>
-    </span>
-    <header-notice class="action"/>
+    </span> -->
+    <!-- 通知组件已隐藏 -->
+    <!-- <header-notice class="action"/> -->
     <a-dropdown>
       <span v-if="isDesktop()" class="action ant-dropdown-link user-dropdown-menu">
         <a-icon type="down-circle"/>
